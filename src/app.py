@@ -2,7 +2,8 @@ from PyQt5.QtWidgets import(
     QApplication, QWidget,
     QHBoxLayout, QVBoxLayout,
     QPushButton, QMainWindow,
-    QFileDialog,
+    QFileDialog, QSpinBox,
+    QDoubleSpinBox,
     QLabel
 )
 
@@ -36,7 +37,7 @@ class QIComboBox(QComboBox):
 class Window(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Distribution from derivative")
+        self.setWindowTitle("Get distributions and the peaks")
 
         # list of the distributions to fit
         list_dist = [
@@ -60,6 +61,9 @@ class Window(QMainWindow):
         self.y_diff = None
         self.peak_indices = []
         self.list_plots = []
+        self.list_dists = []
+        self.params_cauchy = []
+        self.params_gauss = []
 
         '''
             Buttons
@@ -84,6 +88,24 @@ class Window(QMainWindow):
         for option in list_dist:
             self.dist_combo_box.addItem(option)
 
+        # Distance parameter for the peak finder
+        self.peak_finder_cb = QSpinBox()
+        self.peak_finder_cb.setMinimum(1)
+        self.peak_finder_cb.setMaximum(500)
+        self.peak_finder_cb.setValue(50)
+
+        # Threshold to kill the small peaks
+        self.threshold_sp = QDoubleSpinBox()
+        self.threshold_sp.setMinimum(0.0)
+        self.threshold_sp.setMaximum(1.0)
+        self.threshold_sp.setValue(0.1)
+
+        # Threshold to kill the small peaks
+        self.shift_param = QDoubleSpinBox()
+        self.shift_param.setMinimum(0.0)
+        self.shift_param.setMaximum(1.0)
+        self.shift_param.setValue(0.2)
+
         # Draw the distributions over
         self.dist_button = QPushButton("Draw distributions")
         self.dist_button.clicked.connect(self.draw_dist)
@@ -99,11 +121,21 @@ class Window(QMainWindow):
         self.button_clear.clicked.connect(self.clear_plot)
         self.button_clear.setToolTip("Clear the plot with this button")
 
+        # Clear distributions
+        self.button_cleard = QPushButton("Clear Distributions")
+        self.button_cleard.clicked.connect(self.clear_dist)
+        self.button_cleard.setToolTip("Clear the distribution plots with this button")
+
         # graphing area
         size_ratio = 4
         self.plotter = pg.PlotWidget() # the plotting widget
         self.plotter.setBackground('w') # white background
         self.plot_item = self.plotter.getPlotItem() # the plot item
+
+        # some useful labels
+        l_distances = QLabel("Neighbor distances\n for the peak finder : ")
+        l_threshold = QLabel("Peak selection threshold : ")
+        l_shift_sum = QLabel("Shift the sum of \n the distributions by :")
 
         '''
             Layout info
@@ -116,9 +148,15 @@ class Window(QMainWindow):
         layout3.addWidget(self.peak_button)
         layout3.addWidget(self.dist_combo_box)
         layout3.addWidget(self.dist_button)
-        layout3.addWidget(self.button_run)
-        layout3.addWidget(self.button_save)
+        layout3.addWidget(l_distances)
+        layout3.addWidget(self.peak_finder_cb)
+        layout3.addWidget(l_threshold)
+        layout3.addWidget(self.threshold_sp)
+        layout3.addWidget(l_shift_sum)
+        layout3.addWidget(self.shift_param)
+        layout3.addWidget(self.button_cleard)
         layout3.addWidget(self.button_clear)
+        layout3.addWidget(self.button_save)
         # the whole thing
         layout0.addLayout(layout1)
         layout0.addLayout(layout3)
@@ -139,6 +177,18 @@ class Window(QMainWindow):
         '''
         self.plotter.clear()
         self.list_plots = []
+        self.list_dists = []
+        self.params_cauchy=[]
+        self.params_gauss = []
+    
+    def clear_dist(self):
+        '''
+            clears the distribution plots
+        '''
+        for plot in self.list_dists:
+            self.plotter.removeItem(plot)
+        self.params_gauss = []
+        self.params_cauchy = []
 
     def read_datapoints(self):
         '''
@@ -185,12 +235,7 @@ class Window(QMainWindow):
             pen=pg.mkPen(width=5)
         )
         self.list_plots.append(plot_item)  # list of line plots here
-
-        if self.file is None:
-            self.plotter.setLabels(title="The title goes here")
-        else:
-            self.plotter.setTitle(title="Some spectral data", size='20px')
-        self.plotter.setLabel('left',"Intensity", size='20px', color='#808080')
+        self.plotter.setLabel('left',"Intensity (au)", size='20px', color='#808080')
         self.plotter.setLabel('bottom',"Wavenumber (cmᐨ¹)", size='20px', color='#808080')
         self.plotter.setContentsMargins(0, 0, 0, 0)
     
@@ -204,6 +249,17 @@ class Window(QMainWindow):
         '''
             save_peaks (button)
         '''
+        options = QFileDialog.Options()
+        filename, _ = QFileDialog.getSaveFileName(self,"QFileDialog.getSaveFileName()","",
+                        "Text Files (*.txt);;Comma Separated (*.csv)", options=options)
+        if self.dist_combo_box.currentText() == "Cauchy":
+            string_out = "Distribution : Cauchy\n"
+            string_out = "Central value, Amplitude, Gamma\n"
+            with open(filename, 'w') as file:
+                file.write(string_out)
+                for param in self.params_cauchy:
+                    string_out = str(param[0]) + ", " + str(param[1]) + ", " + str(param[2]) + "\n"
+                    file.write(string_out)
         return None
     
     def draw_dist(self):
@@ -211,17 +267,19 @@ class Window(QMainWindow):
             draw_dist
         """
         if self.dist_combo_box.currentText() == "Cauchy":
-            list_cauchies = get_cauchy(self.x_vals, 
+            list_cauchies, sum_cauchy, self.params_cauchy = get_cauchy(self.x_vals, 
                                        self.y_vals,
-                                       self.y_diff,
                                        self.peak_indices)
             for cauchy in list_cauchies:
                 print(cauchy)
                 print(type(cauchy))
                 plot_item = self.plotter.plot(
                     self.x_vals, cauchy, connect="finite",
-                    pen=pg.mkPen(width=5, color=(30, 30, 200)))
-                self.list_plots.append(plot_item)
+                    pen=pg.mkPen(width=2, color=(30, 30, 200)))
+                self.list_dists.append(plot_item)
+            plot_item = self.plotter.plot(
+                self.x_vals, sum_cauchy + self.shift_param.value(),
+                connect="finite", pen=pg.mkPen(width=3, color=(30, 150, 30)))
         elif self.dist_combo_box.currentText() == "Gauss":
             return None
         return None
@@ -230,8 +288,13 @@ class Window(QMainWindow):
         '''
             find_peaks
         '''
-        self.peak_indices, _ = find_peaks(self.y_vals)
-        self.peak_indices = self.peak_indices.tolist()
+        peak_indices, _ = find_peaks(self.y_vals, distance=int(self.peak_finder_cb.value()))
+        peak_indices = peak_indices.tolist()
+        self.peak_indices = []
+        for peak_candidate in peak_indices:
+            if self.y_vals[peak_candidate] > self.threshold_sp.value():
+                self.peak_indices.append(peak_candidate)
+        
         self.x_peaks = self.x_vals[self.peak_indices]
         self.y_peaks = self.y_vals[self.peak_indices]
         plot_item = self.plotter.plot(
