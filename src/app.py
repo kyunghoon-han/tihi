@@ -1,309 +1,313 @@
-from PyQt5.QtWidgets import(
-    QApplication, QWidget,
+#!/usr/bin/env python
+
+import sys, os
+import numpy as np
+from os.path import abspath
+from wizard import MagicWizard
+
+from PyQt5.QtWidgets import (
+    QApplication, QWidget, QLineEdit,
     QHBoxLayout, QVBoxLayout,
     QPushButton, QMainWindow,
-    QFileDialog, QSpinBox,
-    QDoubleSpinBox,
-    QLabel
+    QFileDialog, QWizard, QLabel
 )
-
-from PyQt5.QtWidgets import QComboBox
 from PyQt5.QtCore import Qt
 from PyQt5.QtCore import QT_VERSION_STR
 
 import pyqtgraph as pg
-import numpy as np
 
-from os.path import abspath
-from pathlib import Path
-
-from scipy.signal import find_peaks
-from utils.fitter import Interpolate
-from utils.cauchy import get_cauchy
-
-import warnings, sys, os
+import warnings
 warnings.filterwarnings("ignore")
 
-'''
-    ComboBox that can add entries from a given list
-'''
-class QIComboBox(QComboBox):
-    def __init__(self, parent=None):
-        super(QIComboBox, self).__init__(parent)
+print("Imported PyQt version : ", QT_VERSION_STR)
 
-'''
-    Application window
-'''
+class WizardWindow(QMainWindow):
+    def __init__(self, x_vals, y_vals,x_label, y_label, title):
+        """Wizard window class
+
+        Args:
+            x_vals (np array): x-values of the signal
+            y_vals (np array): y-values of the signal
+        """
+        super().__init__()
+        
+        # initial stuff
+        self.approximation  = None
+        self.decompositions = []
+        self.params         = []
+        self.dist_type      = None
+        
+        self.wizard = MagicWizard(x_vals, y_vals, x_label, y_label, title)
+        self.setCentralWidget(self.wizard)
+        self.wizard.button(QWizard.FinishButton).clicked.connect(self.closure)
+        # Disable the back button on initialization
+        self.wizard.button(QWizard.BackButton).hide()
+    
+    def closure(self):
+        self.dist_type = self.wizard.distribution.distribution_type
+        if self.dist_type is not None:
+            self.approximation  = self.wizard.distribution.approximation
+            self.decompositions = self.wizard.distribution.decompositions
+            self.params         = self.wizard.distribution.params
+        self.close()
+        
+
+"""
+    Main window of the application
+"""
 class Window(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Get distributions and the peaks")
+        self.setWindowTitle("A peakfinder GUI for a spectral data")
 
-        # list of the distributions to fit
-        list_dist = [
-            "Cauchy",
-            "Gauss",
-        ]
-
-        # the layouts
-        layout_whole = QVBoxLayout() # for the Dev Note
-        layout0 = QHBoxLayout() # for the whole thing
-        layout1 = QVBoxLayout() # for the plotting space
-        layout2 = QHBoxLayout() # for the buttons
-        layout3 = QVBoxLayout() # for the controls
-
-        # variables
-        self.file = None
-        self.x_vals = None
-        self.y_vals = None
-        self.x_peaks= None
-        self.y_peaks= None
-        self.y_diff = None
-        self.peak_indices = []
-        self.list_plots = []
-        self.list_dists = []
-        self.params_cauchy = []
-        self.params_gauss = []
-
-        '''
-            Buttons
-        '''
-        # Load file button
-        self.button_load = QPushButton("Load data-points")
-        self.button_load.clicked.connect(self.read_datapoints)
-        self.button_load.setToolTip("Load data-points")
-
-        # Run algorithm button
-        self.button_run = QPushButton("Run algorithm")
-        self.button_run.clicked.connect(self.run_algorithm)
-        self.button_run.setToolTip("Run the algorithm")
-
-        # Get derivatives of the input data?
-        self.button_save = QPushButton("Save peak info")
-        self.button_save.clicked.connect(self.save_peaks)
-        self.button_save.setToolTip("Save peak information.")
-
-        # Choose a distribution to fit over
-        self.dist_combo_box = QIComboBox()
-        for option in list_dist:
-            self.dist_combo_box.addItem(option)
-
-        # Distance parameter for the peak finder
-        self.peak_finder_cb = QSpinBox()
-        self.peak_finder_cb.setMinimum(1)
-        self.peak_finder_cb.setMaximum(500)
-        self.peak_finder_cb.setValue(50)
-
-        # Threshold to kill the small peaks
-        self.threshold_sp = QDoubleSpinBox()
-        self.threshold_sp.setMinimum(0.0)
-        self.threshold_sp.setMaximum(1.0)
-        self.threshold_sp.setValue(0.1)
-
-        # Threshold to kill the small peaks
-        self.shift_param = QDoubleSpinBox()
-        self.shift_param.setMinimum(0.0)
-        self.shift_param.setMaximum(1.0)
-        self.shift_param.setValue(0.2)
-
-        # Draw the distributions over
-        self.dist_button = QPushButton("Draw distributions")
-        self.dist_button.clicked.connect(self.draw_dist)
-        self.dist_button.setToolTip("Draw the distributions over the plot.")
+        # initialization of the variables
+        self.file     = None
+        self.x_vals   = None    # data for the modified signal
+        self.y_vals   = None
+        self.x_orig   = None    # data for the original signal
+        self.y_orig   = None
         
-        # Button to find peaks
-        self.peak_button = QPushButton("Find Peaks")
-        self.peak_button.clicked.connect(self.find_peaks)
-        self.peak_button.setToolTip("Push this to find the peaks")
-
-        # Clear plot
-        self.button_clear = QPushButton("Clear Plots")
-        self.button_clear.clicked.connect(self.clear_plot)
-        self.button_clear.setToolTip("Clear the plot with this button")
-
-        # Clear distributions
-        self.button_cleard = QPushButton("Clear Distributions")
-        self.button_cleard.clicked.connect(self.clear_dist)
-        self.button_cleard.setToolTip("Clear the distribution plots with this button")
-
+        self.params   = None
+        
+        # define the buttons
+        self.button_load = QPushButton("Load File")
+        self.button_load.clicked.connect(self.read_file)
+        self.button_load.setToolTip("Load a file where the first column is the x-values and the second column is the y-values")
+        
+        self.button_run = QPushButton("Run")
+        self.button_run.setToolTip("Run the wizard that guides the users to apply the peak detection and fitting algorithms")
+        self.button_run.clicked.connect(self.run_wizard)
+        
+        self.button_save = QPushButton("Save parameters")
+        self.button_save.setToolTip("Save the peak information: the parameters for the distributions of all peaks")
+        self.button_save.clicked.connect(self.save_parameters)
+        
+        self.button_normalize = QPushButton("Normalize")
+        self.button_normalize.setToolTip("Normalize the signal to sit between 0 and 1")
+        self.button_normalize.clicked.connect(self.normalize)
+        
+        # define the text boxes
+        self.textbox_title  = QLineEdit("Plot Title")
+        self.textbox_xlabel = QLineEdit("X Label Name")
+        self.textbox_ylabel = QLineEdit("Y Label Name")
+        self.textbox_title.textChanged.connect(self.set_title)
+        self.textbox_xlabel.textChanged.connect(self.set_xlabel)
+        self.textbox_ylabel.textChanged.connect(self.set_ylabel)
+        
         # graphing area
-        size_ratio = 4
-        self.plotter = pg.PlotWidget() # the plotting widget
-        self.plotter.setBackground('w') # white background
-        self.plot_item = self.plotter.getPlotItem() # the plot item
-
-        # some useful labels
-        l_distances = QLabel("Neighbor distances\n for the peak finder : ")
-        l_threshold = QLabel("Peak selection threshold : ")
-        l_shift_sum = QLabel("Shift the sum of \n the distributions by :")
-
-        '''
-            Layout info
-        '''
-        # the entire layout
+        size_ratio     = 4
+        self.plotter   = pg.PlotWidget()
+        self.plot_item = self.plotter.getPlotItem()
+        self.plotter.setBackground('w')
+        
+        # plotting the variables
+        self.line_plots = []
+        self.peak_plots = []
+        
+        # the layouts
+        layout1 = QVBoxLayout()                     # The main layout
+        layout2 = QHBoxLayout()                     # Layout for the buttons
+        layout3 = QHBoxLayout()                     # Layout to store the textboxes
         layout1.addWidget(self.plotter, size_ratio)
         layout1.addLayout(layout2)
-        # the controls
-        layout3.addWidget(self.button_load)
-        layout3.addWidget(self.peak_button)
-        layout3.addWidget(self.dist_combo_box)
-        layout3.addWidget(self.dist_button)
-        layout3.addWidget(l_distances)
-        layout3.addWidget(self.peak_finder_cb)
-        layout3.addWidget(l_threshold)
-        layout3.addWidget(self.threshold_sp)
-        layout3.addWidget(l_shift_sum)
-        layout3.addWidget(self.shift_param)
-        layout3.addWidget(self.button_cleard)
-        layout3.addWidget(self.button_clear)
-        layout3.addWidget(self.button_save)
-        # the whole thing
-        layout0.addLayout(layout1)
-        layout0.addLayout(layout3)
-
+        layout2.addWidget(self.button_load)         # add the buttons
+        layout2.addWidget(self.button_run)
+        layout2.addWidget(self.button_save)
+        layout2.addWidget(self.button_normalize)
+        # text inputs for the plots
+        text_info = QLabel("Plot labels (to make changes, press the enter key after the text is edited): ")
+        layout1.addWidget(text_info)
+        layout3.addWidget(self.textbox_title)
+        layout3.addWidget(self.textbox_xlabel)
+        layout3.addWidget(self.textbox_ylabel)
+        layout1.addLayout(layout3)
         # copyright line
-        dev = QLabel("Bug reports to the developer at: han_kyunghoon@naver.com -- © Kyunghoon Han")
-        layout_whole.addLayout(layout0)
-        layout_whole.addWidget(dev)
-
+        dev = QLabel("For questions, e-mail the developer at: han_kyunghoon@naver.com -- © Kyunghoon Han")
+        layout1.addWidget(dev)
+        
         # define the main layout
         main_widget = QWidget()
-        main_widget.setLayout(layout_whole)
+        main_widget.setLayout(layout1)
         self.setCentralWidget(main_widget)
-
-    def clear_plot(self):
-        '''
-            clears the plot
-        '''
-        self.plotter.clear()
-        self.list_plots = []
-        self.list_dists = []
-        self.params_cauchy=[]
-        self.params_gauss = []
-    
-    def clear_dist(self):
-        '''
-            clears the distribution plots
-        '''
-        for plot in self.list_dists:
-            self.plotter.removeItem(plot)
-        self.params_gauss = []
-        self.params_cauchy = []
-
-    def read_datapoints(self):
-        '''
-            read_datapoints
-        '''
-        dir_path = str(abspath(os.getcwd()))
+        
+    def read_file(self):
+        """
+            Reads a signal file data in the following format:
+                - first column  : independent variable data
+                - second column : dependent variable data
+        """
+        dir_path     = str(abspath(os.getcwd()))
         self.file, _ = QFileDialog.getOpenFileName(
             self,
-            'Select a file to import',
+            "Select a file to import",
             dir_path,
             'Files (*.csv, *.txt)'
         )
+        
         if self.file is None:
-            return None # change it when self.plot() is defined
-        elif self.file is not None:
-            if "csv" in self.file[-4:] or "txt" in self.file[-4:]:
-                try:
-                    arr = np.loadtxt(self.file, delimiter=',')
-                except ValueError:
-                    try:
-                        arr = np.loadtxt(self.file, delimiter=' ')
-                    except ValueError:
-                        arr = np.loadtxt(self.file, delimiter='\t')
-        interpolation_obj = Interpolate(
-                                arr[:,0], arr[:,1],
-                                degree_spline=3,
-                                gratings=1000)
-        self.x_vals = interpolation_obj.x_val
-        self.y_vals = interpolation_obj.y_val
-        self.y_diff = interpolation_obj.first_deriv
-
-        # then plot the data here
+            return None
+        else:
+            with open(self.file, 'r') as file:
+                lines      = file.readlines()
+                x_val_list = []
+                y_val_list = []
+                for line in lines:
+                    line = line.replace(',', ' ')
+                    line = line.split()
+                    if len(line) > 1:
+                        try:
+                            x_val_list.append(float(line[0]))
+                            y_val_list.append(float(line[1]))
+                        except ValueError or IndexError:
+                            continue
+            self.x_vals = x_val_list
+            self.y_vals = y_val_list
+            # cache the data
+            self.x_orig = self.x_vals
+            self.y_orig = self.y_vals
+            # plot the data for the user
+            self.plot_input_data()
+            # initialize the title and labels of the plot
+            self.set_title()
+            self.set_xlabel()
+            self.set_ylabel()
+            
+            
+    def normalize(self):
+        self.y_vals = self.y_vals - np.min(self.y_vals)
+        self.y_vals = self.y_vals / np.max(self.y_vals)
         self.plot_input_data()
-        return None
     
+    def save_parameters(self):
+        if self.params is not None:
+            print("the parameters being saved: ")
+            print(self.params)
+            options = QFileDialog.Options()
+            filename, _ = QFileDialog.getSaveFileName(self,
+                                "QFileDialog.getSaveFileName()","",
+                                "All Files (*)", options=options)
+            if filename:
+                string_out = str(self.wiz_window.dist_type) + " parameters: \n"
+                if self.wiz_window.dist_type == "Gaussian":
+                    string_out += "Center, Amplitude, Standard_Deviation\n"
+                elif self.wiz_window.dist_type == "Lorentzian":
+                    string_out += "Center, Amplitude, Gamma\n"
+                elif self.wiz_window.dist_type == "Voigt":
+                    string_out += "Center, Amplitude, Gaussian_Width, Lorentzian_Width\n"
+                else:
+                    raise TypeError("The distribution name is not saved properly")
+            
+                with open(filename, 'w') as file:
+                    file.write(string_out)
+                    if self.wiz_window.dist_type == "Gaussian":
+                        for param in self.params:
+                            string_out = ""
+                            a = param[0]
+                            b = param[1]
+                            c = param[2]
+                            string_out = str(a) + ", " + str(b) + ", " + str(c) + "\n"
+                            if b > 0 :
+                                file.write(string_out)
+                    elif self.wiz_window.dist_type == "Lorentzian":
+                        for param in self.params:
+                            string_out = ""
+                            a = param[0]
+                            b = param[1]
+                            c = param[2]
+                            string_out = str(a) + ", " + str(b) + ", " + str(c) + "\n"
+                            if b > 0:
+                                file.write(string_out)
+                    elif self.wiz_window.dist_type == "Voigt":
+                        for param in self.params:
+                            string_out = ""
+                            a = param[0]
+                            b = param[1]
+                            c = param[2]
+                            d = param[3]
+                            string_out = str(a) + ", " + str(b) + ", " + str(c) + ", " + str(d) + "\n"
+                            if b>0:
+                                file.write(string_out)
+            else:
+                return None
+                        
+                        
+            
+            
+    """
+        Run the Wizard
+    """
+    def run_wizard(self):
+        # re-initialize
+        self.approximation  = None
+        self.decompositions = []
+        self.params         = []
+        self.dist_type      = None
+        self.plot_input_data()
+        
+        # recall the cached data if we want to run the method again
+        x_label = self.textbox_xlabel.text()
+        y_label = self.textbox_ylabel.text()
+        title   = self.textbox_title.text()
+        
+        self.wiz_window = WizardWindow(self.x_vals, self.y_vals,  x_label=x_label, y_label=y_label, title=title)
+        self.wiz_window.show()
+        self.wiz_window.wizard.button(QWizard.FinishButton).clicked.connect(self.finish_wizard)
+    
+    def finish_wizard(self):
+        if self.wiz_window.dist_type is not None:
+            self.plot_input_data()
+            self.plot_approx()
+            self.plot_decompositions()
+            self.params = self.wiz_window.params
+    """
+        Plotting tools
+    """
     def plot_input_data(self):
+        """Plot the input data called by the self.read_file function
+        """
         self.plotter.clear()
-        # cache the data
-        self.x_orig = self.x_vals
-        self.y_orig = self.y_vals
         # then plot
         plot_item = self.plotter.plot(
             self.x_vals, self.y_vals, connect="finite",
             pen=pg.mkPen(width=5)
         )
-        self.list_plots.append(plot_item)  # list of line plots here
-        self.plotter.setLabel('left',"Intensity (au)", size='20px', color='#808080')
-        self.plotter.setLabel('bottom',"Wavenumber (cmᐨ¹)", size='20px', color='#808080')
+        self.line_plots.append(plot_item)       # list of line plots here
         self.plotter.setContentsMargins(0, 0, 0, 0)
     
-    def run_algorithm(self):
-        '''
-            run_algorithm (button)
-        '''
-        return None
+    def plot_decompositions(self):
+        for dist in self.wiz_window.decompositions:
+            self.plotter.plot(
+                self.wiz_window.wizard.distribution.interpolation_class.x_val,
+                dist,
+                connect="finite",
+                pen=pg.mkPen(color=(0,0,255), width=5)
+            )
     
-    def save_peaks(self):
-        '''
-            save_peaks (button)
-        '''
-        options = QFileDialog.Options()
-        filename, _ = QFileDialog.getSaveFileName(self,"QFileDialog.getSaveFileName()","",
-                        "Text Files (*.txt);;Comma Separated (*.csv)", options=options)
-        if self.dist_combo_box.currentText() == "Cauchy":
-            string_out = "Distribution : Cauchy\n"
-            string_out = "Central value, Amplitude, Gamma\n"
-            with open(filename, 'w') as file:
-                file.write(string_out)
-                for param in self.params_cauchy:
-                    string_out = str(param[0]) + ", " + str(param[1]) + ", " + str(param[2]) + "\n"
-                    file.write(string_out)
-        return None
-    
-    def draw_dist(self):
-        """
-            draw_dist
-        """
-        if self.dist_combo_box.currentText() == "Cauchy":
-            list_cauchies, sum_cauchy, self.params_cauchy = get_cauchy(self.x_vals, 
-                                       self.y_vals,
-                                       self.peak_indices)
-            for cauchy in list_cauchies:
-                print(cauchy)
-                print(type(cauchy))
-                plot_item = self.plotter.plot(
-                    self.x_vals, cauchy, connect="finite",
-                    pen=pg.mkPen(width=2, color=(30, 30, 200)))
-                self.list_dists.append(plot_item)
-            plot_item = self.plotter.plot(
-                self.x_vals, sum_cauchy + self.shift_param.value(),
-                connect="finite", pen=pg.mkPen(width=3, color=(30, 150, 30)))
-        elif self.dist_combo_box.currentText() == "Gauss":
-            return None
-        return None
-    
-    def find_peaks(self):
-        '''
-            find_peaks
-        '''
-        peak_indices, _ = find_peaks(self.y_vals, distance=int(self.peak_finder_cb.value()))
-        peak_indices = peak_indices.tolist()
-        self.peak_indices = []
-        for peak_candidate in peak_indices:
-            if self.y_vals[peak_candidate] > self.threshold_sp.value():
-                self.peak_indices.append(peak_candidate)
-        
-        self.x_peaks = self.x_vals[self.peak_indices]
-        self.y_peaks = self.y_vals[self.peak_indices]
-        plot_item = self.plotter.plot(
-            self.x_peaks, self.y_peaks, connect="finite",
-            pen=None, symbol='x'
+    def plot_approx(self):
+        self.plotter.plot(
+            self.wiz_window.wizard.distribution.interpolation_class.x_val,
+            self.wiz_window.approximation,
+            connect="finite",
+            pen=pg.mkPen(color=(0, 255, 0), width=5)
         )
-        self.list_plots.append(plot_item)  # list of line plots here
-        return None
-
+    
+    def set_title(self):
+        """Set the title of the plot
+        """
+        self.plotter.setTitle(title=self.textbox_title.text(), size='20px')
+    
+    def set_xlabel(self):
+        """Set the x-axis label of the plot
+        """
+        self.plotter.setLabel('bottom', self.textbox_xlabel.text(), size='20px', color='#808080')
+    
+    def set_ylabel(self):
+        """Set the y-axis label of the plot
+        """
+        self.plotter.setLabel('left', self.textbox_ylabel.text(), size='20px', color='#808080')
+    8
+    
+        
 def main():
     app = QApplication(sys.argv)
     window = Window()
