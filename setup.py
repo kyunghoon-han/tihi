@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 
 setup(
-    name="Peak Finder",
-    version="1.0",
+    name="Tihi Spectral Fitter",
+    version="1.1",
     packages=find_packages(),
 )
