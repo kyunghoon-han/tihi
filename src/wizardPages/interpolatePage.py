@@ -28,7 +28,7 @@ class InterpolationPage(QWizardPage):
         self.textbox_xlabel = QLineEdit(x_label)
         self.textbox_ylabel = QLineEdit(y_label)
         
-        self.interpolate_data()
+        #self.interpolate_data()
 
         # GUI Layouts
         self.layout1                  = QHBoxLayout()

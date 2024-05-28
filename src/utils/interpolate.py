@@ -1,5 +1,5 @@
 import numpy as np
-from scipy.interpolate import UnivariateSpline
+from scipy.interpolate import interp1d
 from scipy.signal import savgol_filter
 
 
@@ -46,15 +46,15 @@ class Interpolate():
         self.interpolate(input_x, input_y)
 
     def interpolate(self, x_in, y_in):
-        self.y_spline = UnivariateSpline(x_in, y_in, s=0, k=self.k)
+        self.y_spline = interp1d(x_in, y_in) #  s=0, k=self.k)
         self.x_val = np.linspace(x_in[0],
                                   x_in[-1],
                                   self.domain_size)
         self.y_val = self.y_spline(self.x_val)
 
-        self.first_deriv = self.y_spline.derivative(n=1)(self.x_val)
-        self.second_deriv = self.y_spline.derivative(n=2)(self.x_val)
-        self.second_deriv = self.second_deriv/np.max(self.second_deriv)
+        #self.first_deriv = self.y_spline.derivative(n=1)(self.x_val)
+        #self.second_deriv = self.y_spline.derivative(n=2)(self.x_val)
+        #self.second_deriv = self.second_deriv/np.max(self.second_deriv)
         
     def denoise_signal(self):
         denoised_y = savgol_filter(self.y_val, window_length=self.denoising_window, polyorder=self.denoising_order)
