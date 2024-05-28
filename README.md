@@ -3,7 +3,7 @@
 ## Installation  of the required libraries
 One simply needs to run the following to install the required libraries.
 ```
-pip install -r requirements.txt
+pip install -r requirements
 ```
 If `pip` is not installed on your machine, you can run either
 ```
