@@ -203,7 +203,7 @@ class Window(QMainWindow):
                         for param in self.params:
                             string_out = ""
                             a = param[0]
-                            b = param[1]
+                            b = param[1] * -1.0 # somehow amplitudes are stored as negatives when they are positive
                             c = param[2]
                             string_out = str(a) + ", " + str(b) + ", " + str(c) + "\n"
                             if b > 0 :
@@ -212,7 +212,7 @@ class Window(QMainWindow):
                         for param in self.params:
                             string_out = ""
                             a = param[0]
-                            b = param[1]
+                            b = param[1] * -1.0 # somehow amplitudes are stored as negatives when they are positive
                             c = param[2]
                             string_out = str(a) + ", " + str(b) + ", " + str(c) + "\n"
                             if b > 0:
@@ -221,7 +221,7 @@ class Window(QMainWindow):
                         for param in self.params:
                             string_out = ""
                             a = param[0]
-                            b = param[1]
+                            b = param[1] * - 1.0 # somehow amplitudes are stored as negatives when they are positive
                             c = param[2]
                             d = param[3]
                             string_out = str(a) + ", " + str(b) + ", " + str(c) + ", " + str(d) + "\n"
