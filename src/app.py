@@ -97,8 +97,11 @@ class Window(QMainWindow):
         # text boxes to set the minimum and maximum
         self.textbox_min = QLineEdit("Min Value")
         self.textbox_max = QLineEdit("Max Value")
-        self.textbox_min.textChanged.connect(self.set_min_value)
-        self.textbox_max.textChanged.connect(self.set_max_value)
+        self.textbox_min.returnPressed.connect(self.set_min_value)
+        self.textbox_max.returnPressed.connect(self.set_max_value)
+        self.textbox_min.setToolTip("Press Enter to Execute the Changes")
+        self.textbox_max.setToolTip("Press Enter to Execute the Changes")
+
         
         # graphing area
         size_ratio     = 4
@@ -160,17 +163,21 @@ class Window(QMainWindow):
     def set_max_value(self):
         """sets the max x-value of the input signal
         """
+        print("Hello Ariadni!\n")
         max_val = float(self.textbox_max.text())
         tmp_x_val = []
         tmp_y_val = []
         for i, x_val in enumerate(self.x_vals):
             if x_val < max_val:
+                print(x_val)
                 tmp_x_val.append(x_val)
                 tmp_y_val.append(self.y_vals[i])
 
         self.x_vals = tmp_x_val
         self.y_vals = tmp_y_val
         self.plot_input_data()
+        print(self.x_vals)
+        print(self.y_vals)
         
         
     
