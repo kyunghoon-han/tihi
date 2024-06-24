@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import(
 )
 from PyQt5.QtWidgets import QWizardPage, QComboBox, QSpinBox
 import pyqtgraph as pg
-from utils.distributions import (LorentzianFitter, GaussianFitter, VoigtFitter)
+from tihi.tihi_utils.distributions import (LorentzianFitter, GaussianFitter, VoigtFitter)
 import numpy as np
 
 class QIComboBox(QComboBox):

@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import(
 )
 from PyQt5.QtWidgets import QWizardPage, QComboBox
 import pyqtgraph as pg
-from utils.baseline_corrector import (linear_baseline_correction, airPLS, arPLS)
+from tihi.tihi_utils.baseline_corrector import (linear_baseline_correction, airPLS, arPLS)
 import numpy as np
 
 class QIComboBox(QComboBox):

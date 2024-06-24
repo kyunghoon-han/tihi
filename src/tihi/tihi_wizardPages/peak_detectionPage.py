@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import(
 )
 from PyQt5.QtWidgets import QWizardPage, QComboBox
 import pyqtgraph as pg
-from utils.peak_detection import find_peaks
+from tihi.tihi_utils.peak_detection import find_peaks
 import numpy as np
 
 class PeakDetectionPage(QWizardPage):

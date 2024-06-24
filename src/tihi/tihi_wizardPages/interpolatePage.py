@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import(
 )
 from PyQt5.QtWidgets import QWizardPage, QComboBox
 import pyqtgraph as pg
-from utils.interpolate import Interpolate
+from tihi.tihi_utils.interpolate import Interpolate
 import numpy as np
 
 class InterpolationPage(QWizardPage):

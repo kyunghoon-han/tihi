@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 
 from PyQt5.QtWidgets import QWizard
-from wizardPages.interpolatePage import InterpolationPage as ipp
-from wizardPages.baselinePage import BaselinePage as blp
-from wizardPages.peak_detectionPage import PeakDetectionPage as pdp
-from wizardPages.distributionPage import DistributionFittingPage as dfp
+from tihi.tihi_wizardPages.interpolatePage import InterpolationPage as ipp
+from tihi.tihi_wizardPages.baselinePage import BaselinePage as blp
+from tihi.tihi_wizardPages.peak_detectionPage import PeakDetectionPage as pdp
+from tihi.tihi_wizardPages.distributionPage import DistributionFittingPage as dfp
 
-from utils.interpolate import Interpolate
+from tihi.tihi_utils.interpolate import Interpolate
 import numpy as np
 
 class MagicWizard(QWizard):
