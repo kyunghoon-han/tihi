@@ -20,13 +20,13 @@ def linear_baseline_correction(x_val, y_val, window_length=31):
 
     return corrected_baseline
 
-def airPLS(y, lambda_=100, itermax=15):
+def airPLS(y, lambda_=100, niter=15):
     '''
     AirPLS baseline correction algorithm.
     
-    y: input signal (spectral data)
+    y      : input signal (spectral data)
     lambda_: parameter controlling the smoothness of the baseline
-    itermax: maximum number of iterations
+    niter  : maximum number of iterations
     
     Returns:
     baseline-corrected signal
@@ -34,7 +34,7 @@ def airPLS(y, lambda_=100, itermax=15):
     L = len(y)
     D = sparse.diags([1, -2, 1], [0, -1, -2], shape=(L, L-2))
     W = np.ones(L)
-    for i in range(itermax):
+    for i in range(niter):
         Z = sparse.spdiags(W, 0, L, L)
         C = Z + lambda_ * D.dot(D.transpose())
         baseline = spsolve(C, Z.dot(y))

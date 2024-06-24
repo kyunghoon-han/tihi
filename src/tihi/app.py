@@ -11,7 +11,9 @@ from PyQt5.QtWidgets import (
     QPushButton, QMainWindow,
     QFileDialog, QWizard, QLabel
 )
-from PyQt5.QtCore import Qt
+
+from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import Qt, QSize
 from PyQt5.QtCore import QT_VERSION_STR
 
 import pyqtgraph as pg
@@ -58,7 +60,15 @@ class WizardWindow(QMainWindow):
 class Window(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("A peakfinder GUI for a spectral data")
+        self.setWindowTitle("Tihi spectral peak finder / analyser")
+        icon_path = "src/tihi/logo_small.png"
+        icon_obj = QIcon()
+        icon_obj.addFile('src/tihi/icons/16.png', QSize(16,16))
+        icon_obj.addFile('src/tihi/icons/32.png', QSize(32,32))
+        icon_obj.addFile('src/tihi/icons/64.png', QSize(64,64))
+        icon_obj.addFile('src/tihi/icons/128.png', QSize(128,128))
+        icon_obj.addFile('src/tihi/icons/256.png', QSize(256,256))
+        self.setWindowIcon(icon_obj)
 
         # initialization of the variables
         self.file     = None
@@ -163,7 +173,6 @@ class Window(QMainWindow):
     def set_max_value(self):
         """sets the max x-value of the input signal
         """
-        print("Hello Ariadni!\n")
         max_val = float(self.textbox_max.text())
         tmp_x_val = []
         tmp_y_val = []
@@ -176,8 +185,7 @@ class Window(QMainWindow):
         self.x_vals = tmp_x_val
         self.y_vals = tmp_y_val
         self.plot_input_data()
-        print(self.x_vals)
-        print(self.y_vals)
+
         
         
     
