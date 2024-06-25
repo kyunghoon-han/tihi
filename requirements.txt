@@ -2,3 +2,4 @@ PyQt5==5.15.10
 pyqtgraph==0.13.3
 numpy
 scipy
+pytest
