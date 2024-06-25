@@ -1,4 +1,0 @@
-numpy==1.26.2
-pyqt5==5.15.10
-pyqtgraph==0.13.3
-scipy==1.11.4

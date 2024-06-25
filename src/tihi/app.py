@@ -4,7 +4,7 @@ import sys, os
 import numpy as np
 from os.path import abspath
 from tihi.wizard import MagicWizard
-import ctypes
+import ctypes, platform
 
 from PyQt5.QtWidgets import (
     QApplication, QWidget, QLineEdit,
@@ -65,8 +65,9 @@ class Window(QMainWindow):
         self.setWindowTitle("Tihi spectral peak finder / analyser")
         
         my_app_id = "tihi.1.0.0"
-        # to let Windows know if the 
-        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(my_app_id)
+        # if the OS is Windows...
+        if platform.system()=='Windows':
+            ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(my_app_id)
         
         icon_path = "src/tihi/logo_small.png"
         icon_obj = QIcon()
