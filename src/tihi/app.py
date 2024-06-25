@@ -4,12 +4,14 @@ import sys, os
 import numpy as np
 from os.path import abspath
 from tihi.wizard import MagicWizard
+import ctypes
 
 from PyQt5.QtWidgets import (
     QApplication, QWidget, QLineEdit,
     QHBoxLayout, QVBoxLayout,
     QPushButton, QMainWindow,
-    QFileDialog, QWizard, QLabel
+    QFileDialog, QWizard, QLabel,
+    QSystemTrayIcon
 )
 
 from PyQt5.QtGui import QIcon
@@ -61,6 +63,11 @@ class Window(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Tihi spectral peak finder / analyser")
+        
+        my_app_id = "tihi.1.0.0"
+        # to let Windows know if the 
+        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(my_app_id)
+        
         icon_path = "src/tihi/logo_small.png"
         icon_obj = QIcon()
         icon_obj.addFile('src/tihi/icons/16.png', QSize(16,16))
@@ -69,6 +76,10 @@ class Window(QMainWindow):
         icon_obj.addFile('src/tihi/icons/128.png', QSize(128,128))
         icon_obj.addFile('src/tihi/icons/256.png', QSize(256,256))
         self.setWindowIcon(icon_obj)
+        
+        tray = QSystemTrayIcon()
+        tray.setIcon(icon_obj)
+        tray.setVisible(True)
 
         # initialization of the variables
         self.file     = None

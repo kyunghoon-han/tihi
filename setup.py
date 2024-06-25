@@ -11,10 +11,10 @@ setup(
     packages=find_packages(where='src'),
     package_dir={'': 'src'},
     install_requires=[
-        'PyQt5',
-        'pyqtgraph',
-        'numpy',
-        'scipy',
+        'PyQt5==5.15.10',
+        'pyqtgraph==0.13.3',
+        'numpy==1.26.2',
+        'scipy==1.11.4',
     ],
     entry_points={
         'console_scripts': [
