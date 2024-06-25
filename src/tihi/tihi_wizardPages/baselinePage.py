@@ -85,10 +85,16 @@ class BaselinePage(QWizardPage):
         self.plot_input_data()
     
     def ratio_changes(self):
-        self.ratio = float(self.ratio_val.text())
-    
+        try:
+            self.ratio = float(self.ratio_val.text())
+        except ValueError:
+            self.ratio = 1e-6  # default value
+
     def lambda_changes(self):
-        self.lambda_param = float(self.lambda_val.text())
+        try:
+            self.lambda_param = float(self.lambda_val.text())
+        except ValueError:
+            self.lambda_param = 100  # default value
     
     def method_changes(self):
         self.method = str(self.method_combobox.currentText())

@@ -146,3 +146,8 @@ class DistributionFittingPage(QWizardPage):
     
     def clear(self):
         self.plotter.clear()
+        # Re-plot the original data after clearing
+        self.plotter.plot(
+            self.interpolation_class.x_val, self.interpolation_class.y_val, connect="finite",
+            pen=pg.mkPen(width=5)
+        )
