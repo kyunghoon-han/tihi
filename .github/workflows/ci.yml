@@ -28,6 +28,18 @@ jobs:
         run: |
           export PYTHONPATH=$(pwd)/src:$PYTHONPATH
 
-      - name: Run tests
+      - name: Run tests (Batch 1)
         run: |
-          python -m pytest ./src/tihi/tests
+          pytest src/tihi/tests/test_baseline_correction.py
+          pytest src/tihi/tests/test_distributions.py
+          pytest src/tihi/tests/test_interpolate.py
+          pytest src/tihi/tests/test_peaks.py
+
+      - name: Run tests (Batch 2)
+        run: |
+          pytest src/tihi/tests/test_distribution_page.py
+          pytest src/tihi/tests/test_baseline_page.py
+
+      - name: Run tests (Batch 3)
+        run: |
+          
