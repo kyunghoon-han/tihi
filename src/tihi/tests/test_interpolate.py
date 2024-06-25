@@ -2,7 +2,7 @@ import unittest
 import numpy as np
 from scipy.interpolate import interp1d
 from scipy.signal import savgol_filter
-from src.tihi.tihi_utils.interpolate import Interpolate  # Replace with the actual module name where Interpolate is defined
+from tihi.tihi_utils.interpolate import Interpolate  # Replace with the actual module name where Interpolate is defined
 
 class TestInterpolate(unittest.TestCase):
 

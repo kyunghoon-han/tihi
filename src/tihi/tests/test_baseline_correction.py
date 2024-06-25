@@ -3,8 +3,8 @@ import numpy as np
 from scipy import sparse
 from scipy.signal import medfilt
 from scipy.sparse.linalg import spsolve
-from src.tihi.tihi_utils.interpolate import Interpolate
-from src.tihi.tihi_utils.baseline_corrector import linear_baseline_correction, airPLS, arPLS
+from tihi.tihi_utils.interpolate import Interpolate
+from tihi.tihi_utils.baseline_corrector import linear_baseline_correction, airPLS, arPLS
 
 class TestBaselineCorrection(unittest.TestCase):
     

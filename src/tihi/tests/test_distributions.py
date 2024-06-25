@@ -2,8 +2,8 @@ import unittest
 import numpy as np
 from scipy.optimize import least_squares
 from scipy.special import wofz
-from src.tihi.tihi_utils.distributions import GaussianFitter, LorentzianFitter, VoigtFitter
-from src.tihi.tihi_utils.interpolate import Interpolate
+from tihi.tihi_utils.distributions import GaussianFitter, LorentzianFitter, VoigtFitter
+from tihi.tihi_utils.interpolate import Interpolate
 
 class TestGaussianFitter(unittest.TestCase):
     
