@@ -3,22 +3,25 @@ from scipy import sparse
 from scipy.signal import medfilt
 from scipy.sparse.linalg import spsolve
 
-def linear_baseline_correction(x_val, y_val, window_length=31):
-    # Apply median filtering to smooth the data (optional)
+def linear_baseline_correction(x_val, y_val, window_length=31, percentile=5):
     smoothed_data = medfilt(y_val, kernel_size=window_length)
 
-    # Fit a linear function to the baseline by selecting appropriate data points
-    baseline_indices = np.where(smoothed_data == np.min(smoothed_data))[0]  # Assuming the minimum points represent baseline
-    baseline_x = x_val[baseline_indices]
+    # Select baseline points based on a low percentile of the smoothed data
+    threshold = np.percentile(smoothed_data, percentile)
+    baseline_indices = np.where(smoothed_data <= threshold)[0]
+    if len(baseline_indices) < 2:
+        raise ValueError("Not enough points to fit a baseline. Adjust the percentile or window length.")
+    
+    baseline_indices = np.array(baseline_indices, dtype=int)    
+    baseline_x = np.array(x_val)[baseline_indices.astype(int)]
     baseline_y = smoothed_data[baseline_indices]
 
     # Fit a linear function (y = mx + c) to the baseline points
     m, c = np.polyfit(baseline_x, baseline_y, 1)
-
-    # Generate the corrected baseline using the linear function
-    corrected_baseline = m * np.arange(len(y_val)) + c
+    corrected_baseline = m * np.array(x_val) + c
 
     return corrected_baseline
+
 
 def airPLS(y, lambda_=100, niter=15):
     '''
