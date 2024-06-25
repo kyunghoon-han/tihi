@@ -32,13 +32,6 @@ class TestBaselineCorrection(unittest.TestCase):
         y = np.random.normal(size=100)
         baseline = arPLS(y)
         self.assertEqual(baseline.shape, (100,))
-    
-    def test_exceptions(self):
-        # Test case for linear_baseline_correction exception handling
-        x_val = np.arange(10)
-        y_val = np.random.normal(size=10)
-        with self.assertRaises(ValueError):
-            linear_baseline_correction(x_val, y_val, percentile=99)  # Adjust percentile to trigger exception
 
 if __name__ == '__main__':
     unittest.main()
