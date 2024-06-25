@@ -29,4 +29,4 @@ jobs:
 
       - name: Run tests
         run: |
-          pytest ./src/tihi/tests
+          python -m pytest ./src/tihi/tests
