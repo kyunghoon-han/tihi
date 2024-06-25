@@ -1,7 +1,7 @@
 import unittest
 import numpy as np
-from tihi.tihi_utils.peak_detection import find_peaks, second_derivative  # Replace with the actual module name
-from tihi.tihi_utils.interpolate import Interpolate
+from src.tihi.tihi_utils.peak_detection import find_peaks, second_derivative  # Replace with the actual module name
+from src.tihi.tihi_utils.interpolate import Interpolate
 
 class TestPeakFinding(unittest.TestCase):
 

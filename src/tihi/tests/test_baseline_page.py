@@ -4,8 +4,8 @@ import numpy as np
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtTest import QTest
 from PyQt5.QtCore import Qt
-from tihi.tihi_wizardPages.baselinePage import BaselinePage, QIComboBox  # Replace with the actual module name
-from tihi.tihi_utils.baseline_corrector import (linear_baseline_correction, airPLS, arPLS)
+from src.tihi.tihi_wizardPages.baselinePage import BaselinePage, QIComboBox  # Replace with the actual module name
+from src.tihi.tihi_utils.baseline_corrector import (linear_baseline_correction, airPLS, arPLS)
 
 
 class TestBaselinePage(unittest.TestCase):
