@@ -6,7 +6,7 @@ from PyQt5.QtTest import QTest
 from PyQt5.QtCore import Qt
 from tihi.tihi_utils.distributions import LorentzianFitter, GaussianFitter, VoigtFitter
 from tihi.tihi_utils.interpolate import Interpolate
-from tihi.tihi_wizardPages.distributionPage import DistributionFittingPage, QIComboBox  
+from tihi.tihi_wizardPages.distributionPage import DistributionFittingPage
 
 
 class TestDistributionFittingPage(unittest.TestCase):
