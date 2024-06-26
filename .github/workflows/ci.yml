@@ -47,10 +47,10 @@ jobs:
           $env:PYTHONPATH = "${{ github.workspace }}\src;$env:PYTHONPATH"
       - name: Run tests (Utilities)
         run: |
-          pytest -v src/tihi/tests/utils/test_baseline_correction.py
-          pytest -v src/tihi/tests/utils/test_distributions.py
-          pytest -v src/tihi/tests/utils/test_interpolate.py
-          pytest -v src/tihi/tests/utils/test_peaks.py
-      - name: Run tests (GUI)
+          pytest -v src/tihi/tests/utils/test_baseline_correction.py -W ignore::DeprecationWarning
+          pytest -v src/tihi/tests/utils/test_distributions.py -W ignore::DeprecationWarning
+          pytest -v src/tihi/tests/utils/test_interpolate.py -W ignore::DeprecationWarning
+          pytest -v src/tihi/tests/utils/test_peaks.py -W ignore::DeprecationWarning
+      - name: Run tests (GUI) 
         run : |
-          pytest -x src/tihi/tests/qt
+          pytest -x src/tihi/tests/qt -W ignore::DeprecationWarning
