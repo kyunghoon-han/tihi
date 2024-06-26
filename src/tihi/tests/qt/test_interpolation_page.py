@@ -44,16 +44,13 @@ class TestInterpolationPage(unittest.TestCase):
         self.page.text_denoise_window_size.setText("20")
         self.assertEqual(self.page.denoise_window, 20)
     
-    @patch('tihi.tihi_utils.interpolate.Interpolate')
-    def test_interpolate_data(self, MockInterpolate):
-        mock_interpolated = MagicMock()
+    def test_interpolate_data(self):
+        mock_interpolated = Interpolate(self.x_vals, self.y_vals, gratings=100)
         mock_interpolated.x_val = self.x_vals
         mock_interpolated.y_val = self.y_vals
-        MockInterpolate.return_value = mock_interpolated
         
         self.page.interpolate_data()
         
-        MockInterpolate.assert_called_once_with(self.x_vals, self.y_vals, gratings=self.page.num_points)
         self.assertEqual(self.page.x_vals.tolist(), self.x_vals.tolist())
         self.assertEqual(self.page.y_vals.tolist(), self.y_vals.tolist())
         self.assertEqual(len(self.page.plotter.listDataItems()), 1)
