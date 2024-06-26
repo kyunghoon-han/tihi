@@ -25,7 +25,7 @@ class TestLorentzianFitter(unittest.TestCase):
     
     def setUp(self):
         # Setup data for testing
-        self.x_vals = np.linspace(0, 10, 100)
+        self.x_vals = np.linspace(0, 10, 1000)
         self.y_vals = 1 / ((self.x_vals - 5)**2 + 1)  # Lorentzian peak centered at 5
         self.interpolated = Interpolate(self.x_vals, self.y_vals, gratings=100)
         
@@ -41,7 +41,7 @@ class TestVoigtFitter(unittest.TestCase):
     
     def setUp(self):
         # Setup data for testing
-        self.x_vals = np.linspace(0, 10, 100)
+        self.x_vals = np.linspace(0, 10, 1000)
         self.y_vals = np.real(wofz((self.x_vals - 5) + 1j)) / (np.sqrt(2 * np.pi))  # Voigt peak centered at 5
         self.interpolated = Interpolate(self.x_vals, self.y_vals, gratings=100)
         
