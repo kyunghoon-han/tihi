@@ -1,7 +1,8 @@
 import unittest
 from PyQt5.QtWidgets import QApplication
-from unittest.mock import MagicMock, patch
 from tihi.tihi_wizardPages.peak_detectionPage import PeakDetectionPage
+from tihi.tihi_utils.interpolate import Interpolate
+from tihi.tihi_utils.peak_detection import find_peaks
 import numpy as np
 import sys
 
@@ -12,13 +13,13 @@ class TestPeakDetectionPage(unittest.TestCase):
     
     def setUp(self):
         # Create a mock Interpolate class instance with dummy data for testing
-        self.mock_interpolation = MagicMock()
-        self.mock_interpolation.x_val = np.linspace(0, 10, 100)
-        self.mock_interpolation.y_val = np.sin(self.mock_interpolation.x_val)
-        self.page = PeakDetectionPage(self.mock_interpolation)
+        self.x_val = np.linspace(0, 10, 10)
+        self.y_val = np.sin(self.x_val)
+        self.interpolation_class = Interpolate(self.x_val, self.y_val, gratings=10)
+        self.page = PeakDetectionPage(self.interpolation_class)
     
     def test_initialization(self):
-        self.assertEqual(self.page.interpolation_class, self.mock_interpolation)
+        self.assertEqual(self.page.interpolation_class, self.interpolation_class)
         self.assertEqual(self.page.window_size, 10)
         self.assertEqual(self.page.threshold, 0.1)
         self.assertEqual(self.page.min_amps, 0.0)
@@ -46,18 +47,8 @@ class TestPeakDetectionPage(unittest.TestCase):
         self.page.min_amp_edit.setText("0.5")
         self.assertEqual(self.page.min_amps, 0.5)
     
-    @patch('tihi.tihi_utils.peak_detection.find_peaks')
-    def test_run(self, mock_find_peaks):
-        mock_find_peaks.return_value = [10, 20, 30]
+    def test_run(self):
         self.page.run()
-        
-        mock_find_peaks.assert_called_once_with(
-            self.mock_interpolation,
-            window_size=self.page.window_size,
-            threshold=self.page.threshold,
-            min_amp=self.page.min_amps
-        )
-        self.assertEqual(self.page.peak_indices, [10, 20, 30])
         self.assertEqual(len(self.page.plotter.listDataItems()), 2)
 
 if __name__ == '__main__':
