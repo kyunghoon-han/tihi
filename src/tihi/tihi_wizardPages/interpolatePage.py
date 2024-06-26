@@ -95,11 +95,14 @@ class InterpolationPage(QWizardPage):
     
     def clear(self):
         self.plotter.clear()
-        self.num_points              = len(self.x_orig)
-        self.x_vals                  = self.x_orig
-        self.y_vals                  = self.y_orig
-        self.interpolate_data()
-        self.plot_input_data()
+        self.num_points = len(self.x_orig)
+        self.x_vals = self.x_orig
+        self.y_vals = self.y_orig
+        # Instead of re-interpolating and plotting, just plot the original data
+        self.plotter.plot(
+            self.x_vals, self.y_vals, connect="finite",
+            pen=pg.mkPen(width=5)
+        )
         
     def plot_input_data(self, denoise=False):
         """Plot the input data called by the self.read_file function

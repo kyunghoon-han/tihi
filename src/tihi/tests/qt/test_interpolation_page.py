@@ -33,6 +33,8 @@ class TestInterpolationPage(unittest.TestCase):
         self.page.clear()
         self.assertEqual(self.page.num_points, len(self.x_vals))
         self.assertEqual(len(self.page.plotter.listDataItems()), 1)
+        self.assertEqual(self.page.x_vals.tolist(), self.x_vals.tolist())
+        self.assertEqual(self.page.y_vals.tolist(), self.y_vals.tolist())
     
     def test_change_numpoints(self):
         self.page.text_numpoints.setText("50")

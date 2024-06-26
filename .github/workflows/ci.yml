@@ -37,17 +37,20 @@ jobs:
       - name: List installed packages
         run: |
             pip freeze
-      - name: Set Python path for module resolution
+      - name: Set Python path for module resolution (Unix)
+        if: runner.os != 'Windows'
         run: |
-          export PYTHONPATH=$(pwd)/src:$PYTHONPATH
-
+            export PYTHONPATH=$(pwd)/src:$PYTHONPATH
+      - name: Set Python path for module resolution (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          $env:PYTHONPATH = "${{ github.workspace }}\src;$env:PYTHONPATH"
       - name: Run tests (Utilities)
         run: |
           pytest -v src/tihi/tests/utils/test_baseline_correction.py
           pytest -v src/tihi/tests/utils/test_distributions.py
           pytest -v src/tihi/tests/utils/test_interpolate.py
           pytest -v src/tihi/tests/utils/test_peaks.py
-      
       - name: Run tests (GUI)
         run : |
           coverage run --source=mpl_data_cast -m pytest -x src/tihi/tests/qt
