@@ -16,7 +16,7 @@ class TestGaussianFitter(unittest.TestCase):
     def test_gaussian_fitter(self):
         # Test case for GaussianFitter
         peaks = [50]  # Index of the peak (approximately centered at x = 5)
-        fitter = GaussianFitter(self.interpolated, peaks)
+        fitter = GaussianFitter(self.interpolated, peaks, max_iter=500)
         self.assertTrue(np.allclose(fitter.results, self.y_vals, atol=1e-2))  # Check if fitted Gaussian matches original
         
     # Add more test cases as needed
