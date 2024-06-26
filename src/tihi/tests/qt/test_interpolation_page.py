@@ -55,17 +55,11 @@ class TestInterpolationPage(unittest.TestCase):
         self.assertEqual(self.page.y_vals.tolist(), self.y_vals.tolist())
         self.assertEqual(len(self.page.plotter.listDataItems()), 1)
         
-    @patch('tihi.tihi_utils.interpolate.Interpolate')
-    def test_denoise(self, MockInterpolate):
-        mock_interpolated = MagicMock()
-        mock_interpolated.x_val = self.x_vals
-        mock_interpolated.y_val = self.y_vals
-        mock_interpolated.denoise_signal = MagicMock()
-        MockInterpolate.return_value = mock_interpolated
-
+    def test_denoise(self):
         self.page.denoise()
+        self.assertNotEqual(self.page.x_vals.tolist(), self.x_vals.tolist())
+        self.assertNotEqual(self.page.y_vals.tolist(), self.y_vals.tolist())
 
-        mock_interpolated.denoise_signal.assert_called_once()
 
 if __name__ == '__main__':
     unittest.main()
