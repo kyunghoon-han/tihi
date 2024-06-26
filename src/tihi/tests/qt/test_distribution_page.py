@@ -85,8 +85,10 @@ class TestDistributionFittingPage(unittest.TestCase):
     def test_clear_plot(self):
         # Test clearing the plot
         self.page.run()
+        print("Before clear:", len(self.page.plotter.listDataItems()))
         self.page.clear()
-        self.assertEqual(len(self.page.plotter.listDataItems()), 0) 
+        print("After clear:", len(self.page.plotter.listDataItems()))
+        self.assertEqual(len(self.page.plotter.listDataItems()), 0)
 
     @classmethod
     def tearDownClass(cls):
