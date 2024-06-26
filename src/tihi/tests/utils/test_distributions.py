@@ -9,13 +9,13 @@ class TestGaussianFitter(unittest.TestCase):
     
     def setUp(self):
         # Setup data for testing
-        self.x_vals = np.linspace(0, 10, 10)
+        self.x_vals = np.linspace(0, 10, 1000)
         self.y_vals = np.exp(-(self.x_vals - 5)**2 / 2)  # Gaussian peak centered at 5
-        self.interpolated = Interpolate(self.x_vals, self.y_vals,gratings=10)
+        self.interpolated = Interpolate(self.x_vals, self.y_vals,gratings=1000)
         
     def test_gaussian_fitter(self):
         # Test case for GaussianFitter
-        peaks = [5]  # Index of the peak (approximately centered at x = 5)
+        peaks = [500]  # Index of the peak (approximately centered at x = 5)
         fitter = GaussianFitter(self.interpolated, peaks, max_iter=500)
         self.assertTrue(np.allclose(fitter.results, self.y_vals, atol=1e-2))  # Check if fitted Gaussian matches original
         
@@ -31,7 +31,7 @@ class TestLorentzianFitter(unittest.TestCase):
         
     def test_lorentzian_fitter(self):
         # Test case for LorentzianFitter
-        peaks = [5]  # Index of the peak (approximately centered at x = 5)
+        peaks = [500]  # Index of the peak (approximately centered at x = 5)
         fitter = LorentzianFitter(self.interpolated, peaks)
         self.assertTrue(np.allclose(fitter.results, self.y_vals, atol=1e-2))  # Check if fitted Lorentzian matches original
         
@@ -47,7 +47,7 @@ class TestVoigtFitter(unittest.TestCase):
         
     def test_voigt_fitter(self):
         # Test case for VoigtFitter
-        peaks = [5]  # Index of the peak (approximately centered at x = 5)
+        peaks = [500]  # Index of the peak (approximately centered at x = 5)
         fitter = VoigtFitter(self.interpolated, peaks)
         self.assertTrue(np.allclose(fitter.results, self.y_vals, atol=1e-2))  # Check if fitted Voigt matches original
         
