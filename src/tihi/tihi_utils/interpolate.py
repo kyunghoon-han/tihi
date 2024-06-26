@@ -9,7 +9,7 @@ class Interpolate():
                  input_y,
                  degree_spline=3,
                  gratings=1000,
-                 denoising_window_size=30,
+                 denoising_window_size=10,
                  denoising_order=3):
         """Signal interpolation and denoising algorithm
 

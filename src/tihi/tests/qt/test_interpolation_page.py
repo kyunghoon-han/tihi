@@ -13,10 +13,10 @@ class TestInterpolationPage(unittest.TestCase):
     
     def setUp(self):
         # Create some dummy data for testing
-        self.x_vals = np.linspace(0, 10, 1000)
+        self.x_vals = np.linspace(0, 10, 100)
         self.y_vals = np.sin(self.x_vals)
         # Add noise to the y-values
-        noise = np.random.normal(0, 0.1, self.y_vals.shape)  # Adjust noise level as needed
+        noise = np.random.normal(0, 0.6, self.y_vals.shape)  # Adjust noise level as needed
         self.y_vals_noisy = self.y_vals + noise
         
         self.page = InterpolationPage(self.x_vals, self.y_vals)
@@ -60,9 +60,11 @@ class TestInterpolationPage(unittest.TestCase):
         self.assertEqual(len(self.page.plotter.listDataItems()), 1)
         
     def test_denoise(self):
+        prev_xs = self.x_vals.tolist()
+        prev_ys = self.y_vals.tolist()
         self.page.denoise()
-        self.assertNotEqual(self.page.x_vals.tolist(), self.x_vals.tolist())
-        self.assertNotEqual(self.page.y_vals.tolist(), self.y_vals.tolist())
+        self.assertNotEqual(self.page.x_vals.tolist(), prev_xs)
+        self.assertNotEqual(self.page.y_vals.tolist(), prev_ys)
 
 
 if __name__ == '__main__':
