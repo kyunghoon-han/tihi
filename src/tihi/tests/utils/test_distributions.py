@@ -9,9 +9,9 @@ class TestGaussianFitter(unittest.TestCase):
     
     def setUp(self):
         # Setup data for testing
-        self.x_vals = np.linspace(0, 10, 100)
+        self.x_vals = np.linspace(0, 10, 10)
         self.y_vals = np.exp(-(self.x_vals - 5)**2 / 2)  # Gaussian peak centered at 5
-        self.interpolated = Interpolate(self.x_vals, self.y_vals,gratings=100)
+        self.interpolated = Interpolate(self.x_vals, self.y_vals,gratings=10)
         
     def test_gaussian_fitter(self):
         # Test case for GaussianFitter
