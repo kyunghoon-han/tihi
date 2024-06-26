@@ -3,3 +3,5 @@ pyqtgraph==0.13.3
 numpy
 scipy
 pytest
+pytest-qt
+coverage

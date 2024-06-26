@@ -4,36 +4,50 @@ on: [push, pull_request]
 
 jobs:
   test:
-    runs-on: ubuntu-latest
-    env:
-      DISPLAY: ':99.0'
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        python-version: [3.9]
+        python-version: ['3.9']
+        os: [macos-latest, ubuntu-latest, windows-latest]
+    env:
+      DISPLAY: ':99.0'
+      QT_SELECT: "qt5"
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-
+      - name: Setup xvfb (Linux)
+        if: runner.os == 'Linux'
+        run: |
+            # Stuff copied wildly from several stackoverflow posts
+            sudo apt-get install -y xvfb libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0 libxcb-xinput0 libxcb-xfixes0 libxcb-shape0 libglib2.0-0 libgl1-mesa-dev
+            sudo apt-get install '^libxcb.*-dev' libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev
+            # start xvfb in the background
+            sudo /usr/bin/Xvfb $DISPLAY -screen 0 1280x1024x24 &
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
+          python -m pip install --upgrade pip wheel
           pip install -r requirements.txt
           pip install -e .
-          pip install pytest
-
+      - name: List installed packages
+        run: |
+            pip freeze
       - name: Set Python path for module resolution
         run: |
           export PYTHONPATH=$(pwd)/src:$PYTHONPATH
 
       - name: Run tests (Utilities)
         run: |
-          pytest -v src/tihi/tests/test_baseline_correction.py
-          pytest -v src/tihi/tests/test_distributions.py
-          pytest -v src/tihi/tests/test_interpolate.py
-          pytest -v src/tihi/tests/test_peaks.py
+          pytest -v src/tihi/tests/utils/test_baseline_correction.py
+          pytest -v src/tihi/tests/utils/test_distributions.py
+          pytest -v src/tihi/tests/utils/test_interpolate.py
+          pytest -v src/tihi/tests/utils/test_peaks.py
+      
+      - name: Run tests (GUI)
+        run : |
+          coverage run --source=mpl_data_cast -m pytest -x src/tihi/tests/qt
