@@ -88,7 +88,7 @@ class TestDistributionFittingPage(unittest.TestCase):
         print("Before clear:", len(self.page.plotter.listDataItems()))
         self.page.clear()
         print("After clear:", len(self.page.plotter.listDataItems()))
-        self.assertEqual(len(self.page.plotter.listDataItems()), 0)
+        self.assertEqual(len(self.page.plotter.listDataItems()), 1) # I am keeping the original input data
 
     @classmethod
     def tearDownClass(cls):
