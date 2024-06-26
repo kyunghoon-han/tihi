@@ -40,7 +40,7 @@ class InterpolationPage(QWizardPage):
         self.label_window_denoise     = QLabel()
         self.label_numpoints.setText("Number of points")
         self.label_window_denoise.setText("Denoise window size")
-        self.text_numpoints           = QLineEdit("1000")
+        self.text_numpoints           = QLineEdit("100")
         self.text_denoise_window_size = QLineEdit("10")
         self.text_numpoints.textChanged.connect(self.change_numpoints)
         self.text_denoise_window_size.textChanged.connect(self.change_denoise_window_size)

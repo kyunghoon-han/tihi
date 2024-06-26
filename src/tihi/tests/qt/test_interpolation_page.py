@@ -13,7 +13,7 @@ class TestInterpolationPage(unittest.TestCase):
     
     def setUp(self):
         # Create some dummy data for testing
-        self.x_vals = np.linspace(0, 10, 1000)
+        self.x_vals = np.linspace(0, 10, 100)
         self.y_vals = np.sin(self.x_vals)
         # Add noise to the y-values
         noise = np.random.normal(0, 0.6, self.y_vals.shape)  # Adjust noise level as needed
