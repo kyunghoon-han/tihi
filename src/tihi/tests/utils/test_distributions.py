@@ -9,13 +9,13 @@ class TestGaussianFitter(unittest.TestCase):
     
     def setUp(self):
         # Setup data for testing
-        self.x_vals = np.linspace(0, 10, 100)
+        self.x_vals = np.linspace(0, 10, 1000)
         self.y_vals = np.exp(-(self.x_vals - 5)**2 / 2)  # Gaussian peak centered at 5
-        self.interpolated = Interpolate(self.x_vals, self.y_vals,gratings=100)
+        self.interpolated = Interpolate(self.x_vals, self.y_vals,gratings=1000)
         
     def test_gaussian_fitter(self):
         # Test case for GaussianFitter
-        peaks = [50]  # Index of the peak (approximately centered at x = 5)
+        peaks = [500]  # Index of the peak (approximately centered at x = 5)
         fitter = GaussianFitter(self.interpolated, peaks, max_iter=500)
         self.assertTrue(np.allclose(fitter.results, self.y_vals, atol=0.5))  # Check if fitted Gaussian matches original
         
