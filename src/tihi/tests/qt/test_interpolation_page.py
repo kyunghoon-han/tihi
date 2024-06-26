@@ -13,7 +13,7 @@ class TestInterpolationPage(unittest.TestCase):
     
     def setUp(self):
         # Create some dummy data for testing
-        self.x_vals = np.linspace(0, 10, 100)
+        self.x_vals = np.linspace(0, 10, 1000)
         self.y_vals = np.sin(self.x_vals)
         self.page = InterpolationPage(self.x_vals, self.y_vals)
     
