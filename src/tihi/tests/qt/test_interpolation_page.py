@@ -15,6 +15,10 @@ class TestInterpolationPage(unittest.TestCase):
         # Create some dummy data for testing
         self.x_vals = np.linspace(0, 10, 1000)
         self.y_vals = np.sin(self.x_vals)
+        # Add noise to the y-values
+        noise = np.random.normal(0, 0.1, self.y_vals.shape)  # Adjust noise level as needed
+        self.y_vals_noisy = self.y_vals + noise
+        
         self.page = InterpolationPage(self.x_vals, self.y_vals)
     
     def test_initialization(self):
