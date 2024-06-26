@@ -53,4 +53,4 @@ jobs:
           pytest -v src/tihi/tests/utils/test_peaks.py
       - name: Run tests (GUI)
         run : |
-          coverage run --source=mpl_data_cast -m pytest -x src/tihi/tests/qt
+          pytest -x src/tihi/tests/qt
