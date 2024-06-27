@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>baseline_corrector module &mdash; Tihi_spectral_fitter 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+    <link rel="shortcut icon" href="../../_static/128.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="distributions module" href="distributions.html" />
+    <link rel="prev" title="tihi_utils" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Tihi_spectral_fitter
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Tihi_spectral_fitter</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../app.html">app module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wizard.html">wizard module</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">tihi_utils</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">baseline_corrector module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#tihi.tihi_utils.baseline_corrector.airPLS"><code class="docutils literal notranslate"><span class="pre">airPLS()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tihi.tihi_utils.baseline_corrector.arPLS"><code class="docutils literal notranslate"><span class="pre">arPLS()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tihi.tihi_utils.baseline_corrector.linear_baseline_correction"><code class="docutils literal notranslate"><span class="pre">linear_baseline_correction()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="distributions.html">distributions module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="interpolate.html">interpolate module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="peak_detection.html">peak_detection module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tihi_wizardPages/index.html">tihi_wizardPages</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Tihi_spectral_fitter</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Tihi_spectral_fitter</a></li>
+          <li class="breadcrumb-item"><a href="index.html">tihi_utils</a></li>
+      <li class="breadcrumb-item active">baseline_corrector module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/tihi/tihi_utils/baseline_corrector.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-tihi.tihi_utils.baseline_corrector">
+<span id="baseline-corrector-module"></span><h1>baseline_corrector module<a class="headerlink" href="#module-tihi.tihi_utils.baseline_corrector" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="tihi.tihi_utils.baseline_corrector.airPLS">
+<span class="sig-prename descclassname"><span class="pre">tihi.tihi_utils.baseline_corrector.</span></span><span class="sig-name descname"><span class="pre">airPLS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">niter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">15</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tihi.tihi_utils.baseline_corrector.airPLS" title="Link to this definition"></a></dt>
+<dd><p>Perform AirPLS baseline correction algorithm on spectral data.</p>
+<p>Parameters:
+y       : array_like</p>
+<blockquote>
+<div><p>Input signal (spectral data).</p>
+</div></blockquote>
+<dl class="simple">
+<dt><a href="#id1"><span class="problematic" id="id2">lambda_</span></a><span class="classifier">float, optional (default=100)</span></dt><dd><p>Parameter controlling the smoothness of the baseline.</p>
+</dd>
+<dt>niter<span class="classifier">int, optional (default=15)</span></dt><dd><p>Maximum number of iterations.</p>
+</dd>
+</dl>
+<p>Returns:
+baseline : ndarray</p>
+<blockquote>
+<div><p>airPLS baseline.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tihi.tihi_utils.baseline_corrector.arPLS">
+<span class="sig-prename descclassname"><span class="pre">tihi.tihi_utils.baseline_corrector.</span></span><span class="sig-name descname"><span class="pre">arPLS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lam</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">niter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tihi.tihi_utils.baseline_corrector.arPLS" title="Link to this definition"></a></dt>
+<dd><p>Perform arPLS baseline correction algorithm on spectral data.</p>
+<p>Parameters:
+y           : array_like</p>
+<blockquote>
+<div><p>Input signal (spectral data).</p>
+</div></blockquote>
+<dl class="simple">
+<dt>ratio<span class="classifier">float, optional (default=1e-6)</span></dt><dd><p>Convergence threshold.</p>
+</dd>
+<dt>lam<span class="classifier">float, optional (default=100)</span></dt><dd><p>Parameter controlling the smoothness of the baseline.</p>
+</dd>
+<dt>niter<span class="classifier">int, optional (default=100)</span></dt><dd><p>Maximum number of iterations.</p>
+</dd>
+<dt>full_output<span class="classifier">bool, optional (default=False)</span></dt><dd><p>If True, return additional information about the iteration.</p>
+</dd>
+</dl>
+<p>Returns:
+baseline : ndarray</p>
+<blockquote>
+<div><p>arPLS baseline.</p>
+</div></blockquote>
+<p>If full_output=True:
+info     : dict</p>
+<blockquote>
+<div><p>Dictionary containing information about the iteration (num_iter, stop_criterion).</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tihi.tihi_utils.baseline_corrector.linear_baseline_correction">
+<span class="sig-prename descclassname"><span class="pre">tihi.tihi_utils.baseline_corrector.</span></span><span class="sig-name descname"><span class="pre">linear_baseline_correction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">31</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">percentile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tihi.tihi_utils.baseline_corrector.linear_baseline_correction" title="Link to this definition"></a></dt>
+<dd><p>Perform linear baseline correction using a percentile threshold on smoothed data.</p>
+<p>Parameters:
+x_val         : array_like</p>
+<blockquote>
+<div><p>x values of the data points.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>y_val<span class="classifier">array_like</span></dt><dd><p>y values of the data points.</p>
+</dd>
+<dt>window_length<span class="classifier">int, optional (default=31)</span></dt><dd><p>Length of the window for median filtering.</p>
+</dd>
+<dt>percentile<span class="classifier">int, optional (default=5)</span></dt><dd><p>Percentile threshold for selecting baseline points.</p>
+</dd>
+</dl>
+<p>Returns:
+corrected_baseline : ndarray</p>
+<blockquote>
+<div><p>Linear baseline y values.</p>
+</div></blockquote>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="tihi_utils" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="distributions.html" class="btn btn-neutral float-right" title="distributions module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Kyunghoon Han.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
