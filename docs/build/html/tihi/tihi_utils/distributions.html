@@ -103,75 +103,39 @@
 <dt class="sig sig-object py" id="tihi.tihi_utils.distributions.GaussianFitter.approximator">
 <span class="sig-name descname"><span class="pre">approximator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_iter</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tihi.tihi_utils.distributions.GaussianFitter.approximator" title="Link to this definition"></a></dt>
 <dd><p>Perform Gaussian fitting using least squares optimization.</p>
-<p>Parameters:
-max_iter : int</p>
-<blockquote>
-<div><p>Maximum number of iterations for fitting.</p>
-</div></blockquote>
-<p>Returns:
-error    : float</p>
-<blockquote>
-<div><p>Mean absolute error of the fitting.</p>
-</div></blockquote>
-<p>Notes:
-Uses soft L1 loss and bounds parameters to constrain optimization.</p>
+<p>:param max_iter (int) : Maximum number of iterations for fitting.
+:return error (float) : Mean absolute error of the fitting.
+:Notes : Uses soft L1 loss and bounds parameters to constrain optimization.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="tihi.tihi_utils.distributions.GaussianFitter.gaussian">
 <span class="sig-name descname"><span class="pre">gaussian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amplitude</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tihi.tihi_utils.distributions.GaussianFitter.gaussian" title="Link to this definition"></a></dt>
 <dd><p>Calculate a Gaussian function.</p>
-<p>Parameters:
-x         : ndarray</p>
-<blockquote>
-<div><p>X values.</p>
-</div></blockquote>
-<dl class="simple">
-<dt>center<span class="classifier">float</span></dt><dd><p>Center of the Gaussian function.</p>
-</dd>
-<dt>amplitude<span class="classifier">float</span></dt><dd><p>Amplitude of the Gaussian function.</p>
-</dd>
-<dt>sigma<span class="classifier">float</span></dt><dd><p>Standard deviation of the Gaussian function.</p>
-</dd>
-</dl>
-<p>Returns:
-ndarray</p>
+<p>:param x (ndarray) : X values.
+:param center (float) : Center of the Gaussian function.
+:param amplitude (float) : Amplitude of the Gaussian function.
+:param sigma (float) : Standard deviation of the Gaussian function.
+:return (ndarray) : Calculated Gaussian function values.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="tihi.tihi_utils.distributions.GaussianFitter.gaussian_sum">
 <span class="sig-name descname"><span class="pre">gaussian_sum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tihi.tihi_utils.distributions.GaussianFitter.gaussian_sum" title="Link to this definition"></a></dt>
 <dd><p>Calculate the sum of Gaussian functions.</p>
-<p>Parameters:
-x      : ndarray</p>
-<blockquote>
-<div><p>X values.</p>
-</div></blockquote>
-<dl class="simple">
-<dt>params<span class="classifier">ndarray</span></dt><dd><p>Array of parameters for Gaussian functions.</p>
-</dd>
-</dl>
-<p>Returns:
-ndarray</p>
+<p>:param x (ndarray) : X values.
+:param params (ndarray) : Array of parameters for Gaussian functions.
+:return (ndarray) : Sum of Gaussian functions.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="tihi.tihi_utils.distributions.GaussianFitter.residual">
 <span class="sig-name descname"><span class="pre">residual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_vals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_vals</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tihi.tihi_utils.distributions.GaussianFitter.residual" title="Link to this definition"></a></dt>
 <dd><p>Calculate residual between data and Gaussian fit.</p>
-<p>Parameters:
-params : ndarray</p>
-<blockquote>
-<div><p>Array of parameters for Gaussian functions.</p>
-</div></blockquote>
-<dl class="simple">
-<dt>x_vals<span class="classifier">ndarray</span></dt><dd><p>X values of the data.</p>
-</dd>
-<dt>y_vals<span class="classifier">ndarray</span></dt><dd><p>Y values of the data.</p>
-</dd>
-</dl>
-<p>Returns:
-ndarray</p>
+<p>:param params (ndarray) : Array of parameters for Gaussian functions.
+:param x_vals (ndarray) : X values of the data.
+:param y_vals (ndarray) : Y values of the data.
+:return (ndarray) : Residual values.</p>
 </dd></dl>
 
 </dd></dl>
@@ -181,111 +145,54 @@ ndarray</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tihi.tihi_utils.distributions.</span></span><span class="sig-name descname"><span class="pre">LorentzianFitter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">InterpolatedData</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">peaks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tihi.tihi_utils.distributions.LorentzianFitter" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Lorentzian peak fitting class.</p>
-<p>Parameters:
-InterpolatedData : object</p>
-<blockquote>
-<div><p>Interpolated data object containing x_val and y_val.</p>
-</div></blockquote>
-<dl class="simple">
-<dt>peaks<span class="classifier">array_like</span></dt><dd><p>Indices of peaks in the data.</p>
-</dd>
-<dt>max_iter<span class="classifier">int, optional (default=100)</span></dt><dd><p>Maximum number of iterations for fitting.</p>
-</dd>
-</dl>
-<p>Attributes:
-x_vals           : ndarray</p>
-<blockquote>
-<div><p>X values from InterpolatedData.</p>
-</div></blockquote>
-<dl class="simple">
-<dt>y_vals<span class="classifier">ndarray</span></dt><dd><p>Y values from InterpolatedData.</p>
-</dd>
-<dt>centers<span class="classifier">ndarray</span></dt><dd><p>Initial centers of Lorentzian peaks.</p>
-</dd>
-<dt>amplitudes<span class="classifier">ndarray</span></dt><dd><p>Initial amplitudes of Lorentzian peaks.</p>
-</dd>
-<dt>gammas<span class="classifier">list</span></dt><dd><p>Initial full width at half maximum (FWHM) of Lorentzian peaks.</p>
-</dd>
-<dt>params<span class="classifier">ndarray</span></dt><dd><p>Array of initial parameters for least squares fitting.</p>
-</dd>
-<dt>start_params<span class="classifier">list</span></dt><dd><p>Flattened list of initial parameters.</p>
-</dd>
-<dt>decompositions<span class="classifier">list</span></dt><dd><p>List to store individual Lorentzian functions.</p>
-</dd>
-</dl>
+<p>:param InterpolatedData (object) : Interpolated data object containing x_val and y_val.
+:param peaks (array_like) : Indices of peaks in the data.
+:param max_iter (int, optional (default=100)) : Maximum number of iterations for fitting.
+:attribute x_vals (ndarray) : X values from InterpolatedData.
+:attribute y_vals (ndarray) : Y values from InterpolatedData.
+:attribute centers (ndarray) : Initial centers of Lorentzian peaks.
+:attribute amplitudes (ndarray) : Initial amplitudes of Lorentzian peaks.
+:attribute gammas (list) : Initial full width at half maximum (FWHM) of Lorentzian peaks.
+:attribute params (ndarray) : Array of initial parameters for least squares fitting.
+:attribute start_params (list) : Flattened list of initial parameters.
+:attribute decompositions (list) : List to store individual Lorentzian functions.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="tihi.tihi_utils.distributions.LorentzianFitter.approximator">
 <span class="sig-name descname"><span class="pre">approximator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_iter</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tihi.tihi_utils.distributions.LorentzianFitter.approximator" title="Link to this definition"></a></dt>
 <dd><p>Perform Lorentzian fitting using least squares optimization.</p>
-<p>Parameters:
-max_iter : int</p>
-<blockquote>
-<div><p>Maximum number of iterations for fitting.</p>
-</div></blockquote>
-<p>Returns:
-error    : float</p>
-<blockquote>
-<div><p>Mean absolute error of the fitting.</p>
-</div></blockquote>
-<p>Notes:
-Uses soft L1 loss and bounds parameters to constrain optimization.</p>
+<p>:param max_iter (int) : Maximum number of iterations for fitting.
+:return error (float) : Mean absolute error of the fitting.
+:Notes : Uses soft L1 loss and bounds parameters to constrain optimization.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="tihi.tihi_utils.distributions.LorentzianFitter.lorentzian">
 <span class="sig-name descname"><span class="pre">lorentzian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amplitude</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tihi.tihi_utils.distributions.LorentzianFitter.lorentzian" title="Link to this definition"></a></dt>
 <dd><p>Calculate a Lorentzian function.</p>
-<p>Parameters:
-x         : ndarray</p>
-<blockquote>
-<div><p>X values.</p>
-</div></blockquote>
-<dl class="simple">
-<dt>center<span class="classifier">float</span></dt><dd><p>Center of the Lorentzian function.</p>
-</dd>
-<dt>amplitude<span class="classifier">float</span></dt><dd><p>Amplitude of the Lorentzian function.</p>
-</dd>
-<dt>gamma<span class="classifier">float</span></dt><dd><p>Full width at half maximum (FWHM) of the Lorentzian function.</p>
-</dd>
-</dl>
-<p>Returns:
-ndarray</p>
+<p>:param x (ndarray) : X values.
+:param center (float) : Center of the Lorentzian function.
+:param amplitude (float) : Amplitude of the Lorentzian function.
+:param gamma (float) : Full width at half maximum (FWHM) of the Lorentzian function.
+:return (ndarray) : Calculated Lorentzian function values.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="tihi.tihi_utils.distributions.LorentzianFitter.lorentzian_sum">
 <span class="sig-name descname"><span class="pre">lorentzian_sum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tihi.tihi_utils.distributions.LorentzianFitter.lorentzian_sum" title="Link to this definition"></a></dt>
 <dd><p>Calculate the sum of Lorentzian functions.</p>
-<p>Parameters:
-x      : ndarray</p>
-<blockquote>
-<div><p>X values.</p>
-</div></blockquote>
-<dl class="simple">
-<dt>params<span class="classifier">ndarray</span></dt><dd><p>Array of parameters for Lorentzian functions.</p>
-</dd>
-</dl>
-<p>Returns:
-ndarray</p>
+<p>:param x (ndarray) : X values.
+:param params (ndarray) : Array of parameters for Lorentzian functions.
+:return (ndarray) : Sum of Lorentzian functions.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="tihi.tihi_utils.distributions.LorentzianFitter.residual">
 <span class="sig-name descname"><span class="pre">residual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_vals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_vals</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tihi.tihi_utils.distributions.LorentzianFitter.residual" title="Link to this definition"></a></dt>
 <dd><p>Calculate residual between data and Lorentzian fit.</p>
-<p>Parameters:
-params : ndarray</p>
-<blockquote>
-<div><p>Array of parameters for Lorentzian functions.</p>
-</div></blockquote>
-<dl class="simple">
-<dt>x_vals<span class="classifier">ndarray</span></dt><dd><p>X values of the data.</p>
-</dd>
-<dt>y_vals<span class="classifier">ndarray</span></dt><dd><p>Y values of the data.</p>
-</dd>
-</dl>
-<p>Returns:
-ndarray</p>
+<p>:param params (ndarray) : Array of parameters for Lorentzian functions.
+:param x_vals (ndarray) : X values of the data.
+:param y_vals (ndarray) : Y values of the data.
+:return (ndarray) : Residual values.</p>
 </dd></dl>
 
 </dd></dl>
@@ -298,77 +205,40 @@ ndarray</p>
 <dt class="sig sig-object py" id="tihi.tihi_utils.distributions.VoigtFitter.approximator">
 <span class="sig-name descname"><span class="pre">approximator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_iter</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tihi.tihi_utils.distributions.VoigtFitter.approximator" title="Link to this definition"></a></dt>
 <dd><p>Perform Voigt fitting using least squares optimization.</p>
-<p>Parameters:
-max_iter : int</p>
-<blockquote>
-<div><p>Maximum number of iterations for fitting.</p>
-</div></blockquote>
-<p>Returns:
-error    : float</p>
-<blockquote>
-<div><p>Mean absolute error of the fitting.</p>
-</div></blockquote>
-<p>Notes:
-Uses soft L1 loss and bounds parameters to constrain optimization.</p>
+<p>:param max_iter (int) : Maximum number of iterations for fitting.
+:return error (float) : Mean absolute error of the fitting.
+:Notes : Uses soft L1 loss and bounds parameters to constrain optimization.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="tihi.tihi_utils.distributions.VoigtFitter.residual">
 <span class="sig-name descname"><span class="pre">residual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_vals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_vals</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tihi.tihi_utils.distributions.VoigtFitter.residual" title="Link to this definition"></a></dt>
 <dd><p>Calculate residual between data and Voigt fit.</p>
-<p>Parameters:
-params : ndarray</p>
-<blockquote>
-<div><p>Array of parameters for Voigt profiles.</p>
-</div></blockquote>
-<dl class="simple">
-<dt>x_vals<span class="classifier">ndarray</span></dt><dd><p>X values of the data.</p>
-</dd>
-<dt>y_vals<span class="classifier">ndarray</span></dt><dd><p>Y values of the data.</p>
-</dd>
-</dl>
-<p>Returns:
-ndarray</p>
+<p>:param params (ndarray) : Array of parameters for Voigt profiles.
+:param x_vals (ndarray) : X values of the data.
+:param y_vals (ndarray) : Y values of the data.
+:return (ndarray) : Residual values.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="tihi.tihi_utils.distributions.VoigtFitter.voigt">
 <span class="sig-name descname"><span class="pre">voigt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amplitude</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gauss_width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lorentz_width</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tihi.tihi_utils.distributions.VoigtFitter.voigt" title="Link to this definition"></a></dt>
 <dd><p>Calculate a Voigt profile using Faddeeva function approximation.</p>
-<p>Parameters:
-x            : ndarray</p>
-<blockquote>
-<div><p>X values.</p>
-</div></blockquote>
-<dl class="simple">
-<dt>center<span class="classifier">float</span></dt><dd><p>Center of the Voigt profile.</p>
-</dd>
-<dt>amplitude<span class="classifier">float</span></dt><dd><p>Amplitude of the Voigt profile.</p>
-</dd>
-<dt>gauss_width<span class="classifier">float</span></dt><dd><p>Gaussian component width of the Voigt profile.</p>
-</dd>
-<dt>lorentz_width: float</dt><dd><p>Lorentzian component width of the Voigt profile.</p>
-</dd>
-</dl>
-<p>Returns:
-ndarray</p>
+<p>:param x (ndarray) : X values.
+:param center (float) : Center of the Voigt profile.
+:param amplitude (float) : Amplitude of the Voigt profile.
+:param gauss_width (float) : Gaussian component width of the Voigt profile.
+:param lorentz_width (float) : Lorentzian component width of the Voigt profile.
+:return (ndarray) : Calculated Voigt profile values.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="tihi.tihi_utils.distributions.VoigtFitter.voigt_sum">
 <span class="sig-name descname"><span class="pre">voigt_sum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tihi.tihi_utils.distributions.VoigtFitter.voigt_sum" title="Link to this definition"></a></dt>
 <dd><p>Calculate the sum of Voigt profiles.</p>
-<p>Parameters:
-x      : ndarray</p>
-<blockquote>
-<div><p>X values.</p>
-</div></blockquote>
-<dl class="simple">
-<dt>params<span class="classifier">ndarray</span></dt><dd><p>Array of parameters for Voigt profiles.</p>
-</dd>
-</dl>
-<p>Returns:
-ndarray</p>
+<p>:param x (ndarray) : X values.
+:param params (ndarray) : Array of parameters for Voigt profiles.
+:return (ndarray) : Sum of Voigt profiles.</p>
 </dd></dl>
 
 </dd></dl>

@@ -97,79 +97,36 @@
 <span id="baseline-corrector-module"></span><h1>baseline_corrector module<a class="headerlink" href="#module-tihi.tihi_utils.baseline_corrector" title="Link to this heading"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="tihi.tihi_utils.baseline_corrector.airPLS">
-<span class="sig-prename descclassname"><span class="pre">tihi.tihi_utils.baseline_corrector.</span></span><span class="sig-name descname"><span class="pre">airPLS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">niter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">15</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tihi.tihi_utils.baseline_corrector.airPLS" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">tihi.tihi_utils.baseline_corrector.</span></span><span class="sig-name descname"><span class="pre">airPLS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lamb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">niter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">15</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tihi.tihi_utils.baseline_corrector.airPLS" title="Link to this definition"></a></dt>
 <dd><p>Perform AirPLS baseline correction algorithm on spectral data.</p>
-<p>Parameters:
-y       : array_like</p>
-<blockquote>
-<div><p>Input signal (spectral data).</p>
-</div></blockquote>
-<dl class="simple">
-<dt><a href="#id1"><span class="problematic" id="id2">lambda_</span></a><span class="classifier">float, optional (default=100)</span></dt><dd><p>Parameter controlling the smoothness of the baseline.</p>
-</dd>
-<dt>niter<span class="classifier">int, optional (default=15)</span></dt><dd><p>Maximum number of iterations.</p>
-</dd>
-</dl>
-<p>Returns:
-baseline : ndarray</p>
-<blockquote>
-<div><p>airPLS baseline.</p>
-</div></blockquote>
+<p>:param y (ndarray) : Input signal (spectral data).
+:param lamb (float, optional (default=100)) : Parameter controlling the smoothness of the baseline.
+:param niter (int, optional (default=15)) : Maximum number of iterations.
+:return (ndarray) : airPLS baseline.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="tihi.tihi_utils.baseline_corrector.arPLS">
 <span class="sig-prename descclassname"><span class="pre">tihi.tihi_utils.baseline_corrector.</span></span><span class="sig-name descname"><span class="pre">arPLS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lam</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">niter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tihi.tihi_utils.baseline_corrector.arPLS" title="Link to this definition"></a></dt>
 <dd><p>Perform arPLS baseline correction algorithm on spectral data.</p>
-<p>Parameters:
-y           : array_like</p>
-<blockquote>
-<div><p>Input signal (spectral data).</p>
-</div></blockquote>
-<dl class="simple">
-<dt>ratio<span class="classifier">float, optional (default=1e-6)</span></dt><dd><p>Convergence threshold.</p>
-</dd>
-<dt>lam<span class="classifier">float, optional (default=100)</span></dt><dd><p>Parameter controlling the smoothness of the baseline.</p>
-</dd>
-<dt>niter<span class="classifier">int, optional (default=100)</span></dt><dd><p>Maximum number of iterations.</p>
-</dd>
-<dt>full_output<span class="classifier">bool, optional (default=False)</span></dt><dd><p>If True, return additional information about the iteration.</p>
-</dd>
-</dl>
-<p>Returns:
-baseline : ndarray</p>
-<blockquote>
-<div><p>arPLS baseline.</p>
-</div></blockquote>
-<p>If full_output=True:
-info     : dict</p>
-<blockquote>
-<div><p>Dictionary containing information about the iteration (num_iter, stop_criterion).</p>
-</div></blockquote>
+<p>:param y (ndarray) : Input signal (spectral data).
+:param ratio (float, optional (default=1e-6)) : Convergence threshold.
+:param lam (float, optional (default=100)) : Parameter controlling the smoothness of the baseline.
+:param niter (int, optional (default=100)) : Maximum number of iterations.
+:param full_output (bool, optional (default=False)) : If True, return additional information about the iteration.
+:return (ndarray) : arPLS baseline.
+:return (dict, if full_output=True) : Dictionary containing information about the iteration (num_iter, stop_criterion).</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="tihi.tihi_utils.baseline_corrector.linear_baseline_correction">
 <span class="sig-prename descclassname"><span class="pre">tihi.tihi_utils.baseline_corrector.</span></span><span class="sig-name descname"><span class="pre">linear_baseline_correction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">31</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">percentile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tihi.tihi_utils.baseline_corrector.linear_baseline_correction" title="Link to this definition"></a></dt>
 <dd><p>Perform linear baseline correction using a percentile threshold on smoothed data.</p>
-<p>Parameters:
-x_val         : array_like</p>
-<blockquote>
-<div><p>x values of the data points.</p>
-</div></blockquote>
-<dl class="simple">
-<dt>y_val<span class="classifier">array_like</span></dt><dd><p>y values of the data points.</p>
-</dd>
-<dt>window_length<span class="classifier">int, optional (default=31)</span></dt><dd><p>Length of the window for median filtering.</p>
-</dd>
-<dt>percentile<span class="classifier">int, optional (default=5)</span></dt><dd><p>Percentile threshold for selecting baseline points.</p>
-</dd>
-</dl>
-<p>Returns:
-corrected_baseline : ndarray</p>
-<blockquote>
-<div><p>Linear baseline y values.</p>
-</div></blockquote>
+<p>:param x_val (ndarray) : x values of the data points.
+:param y_val (ndarray) : y values of the data points.
+:param window_length (int, optional (default=31)) : Length of the window for median filtering.
+:param percentile (int, optional (default=5)) : Percentile threshold for selecting baseline points.
+:return (ndarray) : Linear baseline y values.</p>
 </dd></dl>
 
 </section>
