@@ -11,6 +11,11 @@ pip install Tihi-spectral-fitter
 ```
 where `pip` could be `pip3` and first line can be modified if some of those packages are already installed.
 
+If you want to remove the installed package, run the following.
+```
+pip uninstall Tihi-spectral-fitter
+```
+
 The PyPI page on this project is https://pypi.org/project/Tihi-spectral-fitter/.
 
 ## Installation from the source
@@ -24,6 +29,11 @@ then `cd` into the *tihi* directory and execute
 pip install .
 ```
 on your favorite terminal.
+
+Uninstalling **Tihi** installed from the source can be done by the following command:
+```
+pip uninstall tihi
+```
 
 ## Documentation
 **Tihi** documentation is constructed but under DNS reviews.
