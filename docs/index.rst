@@ -1,5 +1,5 @@
-Welcome to Your Project's documentation!
-========================================
+Welcome to Tihi documentation!
+==============================
 
 .. toctree::
    :maxdepth: 2

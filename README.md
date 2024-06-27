@@ -1,4 +1,4 @@
-![alt text](https://raw.githubusercontent.com/kyunghoon-han/Tihi_spectral_fitter/688758941fd63fb8998e23d9e3ef9c84c95aecbb/logo_small.png)
+![alt text](https://raw.githubusercontent.com/kyunghoon-han/tihi/main/logo_small.png)
 
 **Tihi** is a lightweight, minimalist GUI tool written in Python designed for identifying signal peaks and decomposing signals in chemical experiments using locally available resources.
 
@@ -9,6 +9,8 @@ One can install this package as:
 pip install Tihi-spectral-fitter
 ```
 where `pip` could be `pip3`. 
+
+The PyPI page on this project is https://pypi.org/project/Tihi-spectral-fitter/.
 
 ## Installation from the source
 
@@ -21,3 +23,6 @@ then `cd` into the *tihi* directory and execute
 pip install .
 ```
 on your favorite terminal.
+
+## Documentation
+**Tihi** documentation is constructed but under DNS reviews.
