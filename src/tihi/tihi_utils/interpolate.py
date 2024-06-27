@@ -13,7 +13,7 @@ class Interpolate():
                  denoising_order=3):
         """Signal interpolation and denoising algorithm
 
-        Args:
+            Args:
             input_x (1D np array): array of the x-variables
             input_y (1D np array): array of the y-variables
             degree_spline (int, optional): degree of spline interpolation. Defaults to 3.
@@ -47,11 +47,11 @@ class Interpolate():
 
     def interpolate(self, x_in, y_in):
         """
-        Perform spline interpolation.
+            Perform spline interpolation.
 
-        Args:
-            x_in (1D np array): input x values
-            y_in (1D np array): input y values
+            Args:
+                x_in (1D np array): input x values
+                y_in (1D np array): input y values
 
         """
         self.y_spline = interp1d(x_in, y_in) #  s=0, k=self.k)
@@ -62,7 +62,7 @@ class Interpolate():
         
     def denoise_signal(self):
         """
-        Apply Savitzky-Golay filter for signal denoising.
+            Apply Savitzky-Golay filter for signal denoising.
         """
         denoised_y = savgol_filter(self.y_val, window_length=self.denoising_window, polyorder=self.denoising_order)
         self.interpolate(self.x_val, denoised_y)

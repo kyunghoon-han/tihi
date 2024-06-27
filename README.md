@@ -36,4 +36,4 @@ pip uninstall tihi
 ```
 
 ## Documentation
-**Tihi** documentation is constructed but under DNS reviews.
+**Tihi** documentation is available on https://tihi.readthedocs.io/en/latest/.

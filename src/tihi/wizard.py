@@ -22,20 +22,6 @@ class MagicWizard(QWizard):
         baseline (blp): Baseline fitting page instance.
         peak_detect (pdp): Peak detection page instance.
         distribution (dfp): Distribution fitting page instance.
-
-    Methods:
-        __init__(self, x_vals, y_vals, x_label="x-axis", y_label="y-axis", title="title"):
-            Initializes the MagicWizard with given data and page titles.
-        handlePageChange(self):
-            Handles changes in wizard pages, disables back button on the first page.
-        finish_line(self):
-            Placeholder method for finishing the wizard.
-        next_button(self):
-            Moves to the next wizard page based on the current page number.
-        back_button(self):
-            Placeholder method for handling the back button.
-        initializePage(self, pageId):
-            Initializes wizard pages and manages the "go back" button's visibility.
     """
     def __init__(self, x_vals, y_vals, x_label="x-axis", y_label="y-axis", title="title"):
         """

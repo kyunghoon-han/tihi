@@ -1,17 +1,16 @@
 import numpy as np
 
 def find_peaks(class_interpolate, window_size=10, threshold=0.01, min_amp=0.0):
-    """
-    Find peaks in the interpolated signal based on the second derivative.
+    """Find peaks in the interpolated signal based on the second derivative.
 
-    Args:
-        class_interpolate (Interpolate): Instance of Interpolate containing interpolated data.
-        window_size (int, optional): Size of the window for peak detection. Defaults to 10.
-        threshold (float, optional): Threshold for peak detection. Defaults to 0.01.
-        min_amp (float, optional): Minimum amplitude of peaks. Defaults to 0.0.
+        Args:
+            class_interpolate (Interpolate): Instance of Interpolate containing interpolated data.
+            window_size (int, optional): Size of the window for peak detection. Defaults to 10.
+            threshold (float, optional): Threshold for peak detection. Defaults to 0.01.
+            min_amp (float, optional): Minimum amplitude of peaks. Defaults to 0.0.
 
-    Returns:
-        peaks (list): List of indices where peaks are detected.
+        Returns:
+            peaks (list): List of indices where peaks are detected.
     """
     peaks = []
 
@@ -32,14 +31,13 @@ def find_peaks(class_interpolate, window_size=10, threshold=0.01, min_amp=0.0):
     return peaks
 
 def second_derivative(class_interpolate):
-    """
-    Compute the second derivative of the interpolated signal.
+    """Compute the second derivative of the interpolated signal.
 
-    Args:
-        class_interpolate (Interpolate): Instance of Interpolate containing interpolated data.
+        Args:
+            class_interpolate (Interpolate): Instance of Interpolate containing interpolated data.
 
-    Returns:
-        second_deriv (np.array): Array of second derivative values.
+        Returns:
+            second_deriv (np.array): Array of second derivative values.
     """
     x_tmp = class_interpolate.x_val
     y_tmp = class_interpolate.y_val

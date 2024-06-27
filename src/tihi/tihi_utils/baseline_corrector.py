@@ -4,23 +4,15 @@ from scipy.signal import medfilt
 from scipy.sparse.linalg import spsolve
 
 def linear_baseline_correction(x_val, y_val, window_length=31, percentile=5):
-    '''
+    """
     Perform linear baseline correction using a percentile threshold on smoothed data.
-
-    Parameters:
-    x_val         : array_like
-                    x values of the data points.
-    y_val         : array_like
-                    y values of the data points.
-    window_length : int, optional (default=31)
-                    Length of the window for median filtering.
-    percentile    : int, optional (default=5)
-                    Percentile threshold for selecting baseline points.
-
-    Returns:
-    corrected_baseline : ndarray
-                         Linear baseline y values.
-    '''
+        
+    :param x_val (ndarray) : x values of the data points.
+    :param y_val (ndarray) : y values of the data points.
+    :param window_length (int, optional (default=31)) : Length of the window for median filtering.
+    :param percentile (int, optional (default=5)) : Percentile threshold for selecting baseline points.
+    :return (ndarray) : Linear baseline y values.
+    """
     smoothed_data = medfilt(y_val, kernel_size=window_length)
 
     # Select baseline points based on a low percentile of the smoothed data
@@ -40,57 +32,38 @@ def linear_baseline_correction(x_val, y_val, window_length=31, percentile=5):
     return corrected_baseline
 
 
-def airPLS(y, lambda_=100, niter=15):
-    '''
+def airPLS(y, lamb=100, niter=15):
+    """
     Perform AirPLS baseline correction algorithm on spectral data.
-
-    Parameters:
-    y       : array_like
-              Input signal (spectral data).
-    lambda_ : float, optional (default=100)
-              Parameter controlling the smoothness of the baseline.
-    niter   : int, optional (default=15)
-              Maximum number of iterations.
-
-    Returns:
-    baseline : ndarray
-               airPLS baseline.
-    '''
+        
+    :param y (ndarray) : Input signal (spectral data).
+    :param lamb (float, optional (default=100)) : Parameter controlling the smoothness of the baseline.
+    :param niter (int, optional (default=15)) : Maximum number of iterations.
+    :return (ndarray) : airPLS baseline.
+    """
     L = len(y)
     D = sparse.diags([1, -2, 1], [0, -1, -2], shape=(L, L-2))
     W = np.ones(L)
     for i in range(niter):
         Z = sparse.spdiags(W, 0, L, L)
-        C = Z + lambda_ * D.dot(D.transpose())
+        C = Z + lamb * D.dot(D.transpose())
         baseline = spsolve(C, Z.dot(y))
         W = np.abs(y - baseline) < 2 * np.sqrt(np.median((y - baseline) ** 2))
     
     return baseline
 
 def arPLS(y, ratio=1e-6, lam=100, niter=100, full_output=False):
-    '''
+    """
     Perform arPLS baseline correction algorithm on spectral data.
-
-    Parameters:
-    y           : array_like
-                  Input signal (spectral data).
-    ratio       : float, optional (default=1e-6)
-                  Convergence threshold.
-    lam         : float, optional (default=100)
-                  Parameter controlling the smoothness of the baseline.
-    niter       : int, optional (default=100)
-                  Maximum number of iterations.
-    full_output : bool, optional (default=False)
-                  If True, return additional information about the iteration.
-
-    Returns:
-    baseline : ndarray
-               arPLS baseline.
-    
-    If full_output=True:
-    info     : dict
-               Dictionary containing information about the iteration (num_iter, stop_criterion).
-    '''
+        
+    :param y (ndarray) : Input signal (spectral data).
+    :param ratio (float, optional (default=1e-6)) : Convergence threshold.
+    :param lam (float, optional (default=100)) : Parameter controlling the smoothness of the baseline.
+    :param niter (int, optional (default=100)) : Maximum number of iterations.
+    :param full_output (bool, optional (default=False)) : If True, return additional information about the iteration.
+    :return (ndarray) : arPLS baseline.
+    :return (dict, if full_output=True) : Dictionary containing information about the iteration (num_iter, stop_criterion).
+    """
     L = len(y)
 
     diag = np.ones(L - 2)
