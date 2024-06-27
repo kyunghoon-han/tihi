@@ -1,5 +1,6 @@
 PyQt5==5.15.10
 pyqtgraph==0.13.3
+sphinx_rtd_theme
 numpy
 scipy
 pytest
