@@ -10,7 +10,44 @@ from tihi.tihi_utils.interpolate import Interpolate
 import numpy as np
 
 class MagicWizard(QWizard):
+    """
+    Wizard for peak profiling using PyQt5 and custom pages.
+
+    Attributes:
+        out_profiles (list): List to store output profiles.
+        out_params (list): List to store output parameters.
+        out_model: Placeholder for output model.
+        page_num (int): Current page number.
+        interpolate (ipp): Interpolation page instance.
+        baseline (blp): Baseline fitting page instance.
+        peak_detect (pdp): Peak detection page instance.
+        distribution (dfp): Distribution fitting page instance.
+
+    Methods:
+        __init__(self, x_vals, y_vals, x_label="x-axis", y_label="y-axis", title="title"):
+            Initializes the MagicWizard with given data and page titles.
+        handlePageChange(self):
+            Handles changes in wizard pages, disables back button on the first page.
+        finish_line(self):
+            Placeholder method for finishing the wizard.
+        next_button(self):
+            Moves to the next wizard page based on the current page number.
+        back_button(self):
+            Placeholder method for handling the back button.
+        initializePage(self, pageId):
+            Initializes wizard pages and manages the "go back" button's visibility.
+    """
     def __init__(self, x_vals, y_vals, x_label="x-axis", y_label="y-axis", title="title"):
+        """
+        Initialize the MagicWizard instance.
+
+        Args:
+            x_vals (np.ndarray): Array of x-axis values.
+            y_vals (np.ndarray): Array of y-axis values.
+            x_label (str, optional): Label for the x-axis. Defaults to "x-axis".
+            y_label (str, optional): Label for the y-axis. Defaults to "y-axis".
+            title (str, optional): Title of the wizard. Defaults to "title".
+        """
         super(MagicWizard, self).__init__()
         # Set the initial size of the wizard window
         self.setGeometry(100, 100, 800, 600)  # Adjust the values as needed
@@ -61,15 +98,31 @@ class MagicWizard(QWizard):
         self.handlePageChange()
 
     def handlePageChange(self):
-        # Disable the "go back" button on the first page
+        """
+        Handle changes in wizard pages.
+
+        Disables the "go back" button on the first page.
+        """
         backButton = self.button(QWizard.BackButton)
         if backButton:
             backButton.hide()
         
     def finish_line(self):
+        """
+        Placeholder method for finishing the wizard.
+
+        Returns:
+            None
+        """
         return None
     
     def next_button(self):
+        """
+        Move to the next wizard page based on the current page number.
+
+        Returns:
+            None
+        """
         self.page_num += 1
         if self.page_num == 2:
             self.baseline.x_vals = self.interpolate.x_vals
@@ -90,9 +143,24 @@ class MagicWizard(QWizard):
         return None
     
     def back_button(self):
+        """
+        Placeholder method for handling the back button.
+
+        Returns:
+            None
+        """
         return None
     
     def initializePage(self, pageId):
+        """
+        Initialize wizard pages and manage the "go back" button's visibility.
+
+        Args:
+            pageId: ID of the wizard page being initialized.
+
+        Returns:
+            None
+        """
         super().initializePage(pageId)
 
         # Disable the "go back" button on the first page

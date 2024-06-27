@@ -9,10 +9,22 @@ from tihi.tihi_utils.baseline_corrector import (linear_baseline_correction, airP
 import numpy as np
 
 class QIComboBox(QComboBox):
+    '''
+    Custom ComboBox class inheriting from QComboBox.
+    '''
     def __init__(self, parent=None):
         super(QIComboBox, self).__init__(parent)
 
 class BaselinePage(QWizardPage):
+    '''
+    Wizard page for baseline correction using various methods.
+
+    x_vals   : x-axis values of the data
+    y_vals   : y-axis values of the data
+    x_label  : label for the x-axis
+    y_label  : label for the y-axis
+    title    : title for the plot
+    '''
     def __init__(self, x_vals, y_vals, x_label="x-axis", y_label="y-axis", title="title"):
         super(BaselinePage, self).__init__()
         self.inblp = True
@@ -85,21 +97,33 @@ class BaselinePage(QWizardPage):
         self.plot_input_data()
     
     def ratio_changes(self):
+        '''
+        Updates the ratio parameter for arPLS based on user input.
+        '''
         try:
             self.ratio = float(self.ratio_val.text())
         except ValueError:
             self.ratio = 1e-6  # default value
 
     def lambda_changes(self):
+        '''
+        Updates the lambda parameter for PLS methods based on user input.
+        '''
         try:
             self.lambda_param = float(self.lambda_val.text())
         except ValueError:
             self.lambda_param = 100  # default value
     
     def method_changes(self):
+        '''
+        Updates the baseline correction method based on user selection.
+        '''
         self.method = str(self.method_combobox.currentText())
     
     def run(self):
+        '''
+        Executes the baseline correction based on the selected method.
+        '''
         self.clear() # clear the plot first
         if self.method is None:
             pass
@@ -120,6 +144,9 @@ class BaselinePage(QWizardPage):
         self.plot_input_data()
     
     def clear(self):
+        '''
+        Clears the plot and resets the x and y values to the original data.
+        '''
         self.plotter.clear()
         self.num_points              = len(self.x_orig)
         self.x_vals                  = self.x_orig
@@ -128,7 +155,7 @@ class BaselinePage(QWizardPage):
         self.plot_input_data()
         
     def plot_input_data(self):
-        """Plot the input data called by the self.read_file function
+        """Plots the input data along with the baseline if it exists.
         """
         # then plot
         plot_item = self.plotter.plot(

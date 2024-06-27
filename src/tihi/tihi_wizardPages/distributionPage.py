@@ -9,10 +9,21 @@ from tihi.tihi_utils.distributions import (LorentzianFitter, GaussianFitter, Voi
 import numpy as np
 
 class QIComboBox(QComboBox):
+    '''
+    Custom ComboBox class inheriting from QComboBox.
+    '''
     def __init__(self, parent=None):
         super(QIComboBox, self).__init__(parent)
         
 class DistributionFittingPage(QWizardPage):
+    '''
+    Wizard page for fitting distributions to data.
+
+    interpolation_class : Instance of a class containing x_val and y_val attributes for data.
+    x_label             : Label for the x-axis.
+    y_label             : Label for the y-axis.
+    title               : Title for the plot.
+    '''
     def __init__(self, interpolation_class, x_label="x-axis", y_label="y-axis", title="title"):
         super(DistributionFittingPage, self).__init__()
         
@@ -90,15 +101,27 @@ class DistributionFittingPage(QWizardPage):
         self.plot_input_data()
     
     def distribution_type_changes(self):
+        '''
+        Updates the selected distribution type based on user input.
+        '''
         self.distribution_type =self.distribution_combobox.currentText()
     
     def max_iter_changes(self):
+        '''
+        Updates the maximum iteration value based on user input.
+        '''
         self.max_iter = int(self.max_iter.value())
     
     def method_changes(self):
+        '''
+        Updates the optimizer loss type based on user input.
+        '''
         self.optimizer_loss = str(self.optimizer_loss_combobox.currentText())
         
     def run(self):
+        '''
+        Executes the decomposition based on the selected distribution type.
+        '''
         if self.distribution_type == "Gaussian":
             self.fitter = GaussianFitter(self.interpolation_class, self.peak_indices, max_iter=self.max_iter)
             self.params = [self.fitter.params[i:i + 3] for i in range(0, len(self.fitter.params), 3)]
@@ -120,9 +143,18 @@ class DistributionFittingPage(QWizardPage):
         self.plot_input_data(plot_approximation=True)
     
     def plot_all(self):
+        '''
+        Plots all decompositions.
+        '''
         self.plot_input_data(plot_all_distributions=True)
     
     def plot_input_data(self, plot_approximation=False, plot_all_distributions=False):
+        '''
+        Plots the input data along with the approximation or all decompositions if specified.
+        
+        plot_approximation    : If True, plot the approximation. (the sum of distributions)
+        plot_all_distributions: If True, plot all decompositions.
+        '''
         if not plot_all_distributions:
             self.plotter.clear()
             # then plot
@@ -145,6 +177,9 @@ class DistributionFittingPage(QWizardPage):
         self.plotter.setContentsMargins(0, 0, 0, 0)
     
     def clear(self):
+        '''
+        Clears the plot and re-plots the original data.
+        '''
         self.plotter.clear()
         # Re-plot the original data after clearing
         self.plotter.plot(

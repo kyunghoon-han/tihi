@@ -46,16 +46,23 @@ class Interpolate():
         self.interpolate(input_x, input_y)
 
     def interpolate(self, x_in, y_in):
+        """
+        Perform spline interpolation.
+
+        Args:
+            x_in (1D np array): input x values
+            y_in (1D np array): input y values
+
+        """
         self.y_spline = interp1d(x_in, y_in) #  s=0, k=self.k)
         self.x_val = np.linspace(x_in[0],
                                   x_in[-1],
                                   self.domain_size)
         self.y_val = self.y_spline(self.x_val)
-
-        #self.first_deriv = self.y_spline.derivative(n=1)(self.x_val)
-        #self.second_deriv = self.y_spline.derivative(n=2)(self.x_val)
-        #self.second_deriv = self.second_deriv/np.max(self.second_deriv)
         
     def denoise_signal(self):
+        """
+        Apply Savitzky-Golay filter for signal denoising.
+        """
         denoised_y = savgol_filter(self.y_val, window_length=self.denoising_window, polyorder=self.denoising_order)
         self.interpolate(self.x_val, denoised_y)

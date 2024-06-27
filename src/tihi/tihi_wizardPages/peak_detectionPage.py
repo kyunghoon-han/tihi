@@ -9,6 +9,14 @@ from tihi.tihi_utils.peak_detection import find_peaks
 import numpy as np
 
 class PeakDetectionPage(QWizardPage):
+    '''
+    Wizard page for peak detection on interpolated data.
+
+    interpolation_class : Interpolation class containing x_val and y_val attributes from the Interpolation Page.
+    x_label             : Label for the x-axis.
+    y_label             : Label for the y-axis.
+    title               : Title for the plot.
+    '''
     def __init__(self, interpolation_class, x_label="x-axis", y_label="y-axis", title="title"):
         super(PeakDetectionPage, self).__init__()
         
@@ -68,6 +76,9 @@ class PeakDetectionPage(QWizardPage):
         self.plot_input_data()
     
     def run(self):
+        '''
+        Executes peak detection using specified parameters and updates the plot.
+        '''
         self.peak_indices = find_peaks(self.interpolation_class, 
                                   window_size=self.window_size,
                                   threshold=self.threshold,
@@ -76,12 +87,21 @@ class PeakDetectionPage(QWizardPage):
         
     
     def window_size_changes(self):
+        '''
+        Updates the window size for peak detection based on user input.
+        '''
         self.window_size = int(self.window_size_edit.text())
     
     def threshold_changes(self):
+        '''
+        Updates the second-derivative difference threshold for peak detection based on user input.
+        '''
         self.threshold = float(self.threshold_edit.text())
         
     def min_amp_changes(self):
+        '''
+        Updates the minimum amplitude for peak detection based on user input.
+        '''
         self.min_amps  = float(self.min_amp_edit.text())
     
     def plot_input_data(self, peak=False):
@@ -106,4 +126,7 @@ class PeakDetectionPage(QWizardPage):
         self.plotter.setContentsMargins(0, 0, 0, 0)
         
     def clear(self):
+        '''
+        Clears the plot area.
+        '''
         self.plotter.clear()

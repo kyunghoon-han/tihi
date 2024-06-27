@@ -56,10 +56,10 @@ class WizardWindow(QMainWindow):
         self.close()
         
 
-"""
-    Main window of the application
-"""
 class Window(QMainWindow):
+    """
+    Main window of the application
+    """
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Tihi spectral peak finder / analyser")
