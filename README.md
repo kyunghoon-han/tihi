@@ -6,9 +6,10 @@
 
 One can install this package as:
 ```
+pip install numpy scipy PyQt5 pyqtgraph 
 pip install Tihi-spectral-fitter
 ```
-where `pip` could be `pip3`. 
+where `pip` could be `pip3` and first line can be modified if some of those packages are already installed.
 
 The PyPI page on this project is https://pypi.org/project/Tihi-spectral-fitter/.
 
