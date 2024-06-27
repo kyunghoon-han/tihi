@@ -2,7 +2,7 @@ Tihi_spectral_fitter
 ====================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: tihi Modules
 
    app
