@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "Tihi_spectral_fitter"
-version = "0.0.3"
+version = "0.0.4"
 authors = [
   { name="Kyunghoon Han", email="kyunghoon.h@gmail.com" },
 ]
@@ -18,5 +18,8 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/kyunghoon-han/Tihi_spectral_fitter"
-Issues   = "https://github.com/kyunghoon-han/Tihi_spectral_fitter/issues"
+Homepage = "https://github.com/kyunghoon-han/tihi"
+Issues   = "https://github.com/kyunghoon-han/tihi/issues"
+
+[project.scripts]
+tihi = "tihi.app:main"
