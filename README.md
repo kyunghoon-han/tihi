@@ -1,4 +1,4 @@
-![alt text](https://github.com/kyunghoon-han/Tihi_spectral_fitter/logo_small.png)
+![alt text](https://github.com/kyunghoon-han/Tihi_spectral_fitter/blob/main/logo_small.png)
 
 # Peak finder GUI tool for chemical or biological signals
 
