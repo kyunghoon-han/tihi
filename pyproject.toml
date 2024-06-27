@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "Tihi_spectral_fitter"
+version = "0.0.3"
+authors = [
+  { name="Kyunghoon Han", email="kyunghoon.h@gmail.com" },
+]
+description = "A peak identification and signal decomposition tools for chemical signals"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/kyunghoon-han/Tihi_spectral_fitter"
+Issues   = "https://github.com/kyunghoon-han/Tihi_spectral_fitter/issues"

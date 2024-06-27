@@ -1,3 +1,5 @@
+![alt text](https://github.com/kyunghoon-han/Tihi_spectral_fitter/logo_small.png?raw=true)
+
 # Peak finder GUI tool for chemical or biological signals
 
 ## Installation  of the required libraries
