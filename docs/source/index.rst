@@ -8,7 +8,15 @@ Welcome to Tihi documentation!
    tihi/index
    app
    wizard
-   
+   tihi_utils/baseline_corrector
+   tihi_utils/distributions
+   tihi_utils/interpolate
+   tihi_utils/peak_detection
+   tihi_wizardPages/baselinePage
+   tihi_wizardPages/distributionPage
+   tihi_wizardPages/interpolatePage
+   tihi_wizardPages/peak_detectionPage
+
 Indices and tables
 ==================
 
