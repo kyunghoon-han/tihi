@@ -37,3 +37,6 @@ pip uninstall tihi
 
 ## Documentation
 **Tihi** documentation is available on https://tihi.readthedocs.io/en/latest/.
+
+## Thanks
+The authors thank Tobias Henkes https://github.com/tohenkes for finding the crucial error with 8.
