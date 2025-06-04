@@ -70,6 +70,7 @@ class DistributionFittingPage(QWizardPage):
         self.max_iter_spinbox.setMinimum(10)
         self.max_iter_spinbox.setMaximum(500)
         self.max_iter_spinbox.setValue(50)
+        self.max_iter_spinbox.valueChanged.connect(self.max_iter_changes)
         for option in list_distributions:
             self.distribution_combobox.addItem(option)
         for option in list_optimizer_losses:
@@ -110,7 +111,7 @@ class DistributionFittingPage(QWizardPage):
         '''
         Updates the maximum iteration value based on user input.
         '''
-        self.max_iter = int(self.max_iter.value())
+        self.max_iter = int(self.max_iter_spinbox.value())
     
     def method_changes(self):
         '''

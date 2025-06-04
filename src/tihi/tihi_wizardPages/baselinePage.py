@@ -169,6 +169,6 @@ class BaselinePage(QWizardPage):
             )
             self.plotter.plot(
                 self.x_vals, self.baseline, connect="finite",
-                pen=pg.mkPen(color=(0,255,0), wdith=5)
+                pen=pg.mkPen(color=(0,255,0), width=5)
             )
         self.plotter.setContentsMargins(0, 0, 0, 0)

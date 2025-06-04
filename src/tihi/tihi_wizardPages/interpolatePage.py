@@ -143,6 +143,6 @@ class InterpolationPage(QWizardPage):
         else:
             plot_item = self.plotter.plot(
                 self.x_vals, self.y_vals, connect="finite",
-                pen=pg.mkPen(color=(0,255,0), wdith=5)
+                pen=pg.mkPen(color=(0,255,0), width=5)
             )
         self.plotter.setContentsMargins(0, 0, 0, 0)
