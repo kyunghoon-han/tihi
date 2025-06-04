@@ -218,21 +218,35 @@ class Window(QMainWindow):
         if self.file is None:
             return None
         else:
-            with open(self.file, 'r') as file:
-                lines      = file.readlines()
-                x_val_list = []
-                y_val_list = []
-                for line in lines:
-                    line = line.replace(',', ' ')
-                    line = line.split()
-                    if len(line) > 1:
-                        try:
-                            x_val_list.append(float(line[0]))
-                            y_val_list.append(float(line[1]))
-                        except ValueError or IndexError:
-                            continue
-            self.x_vals = x_val_list
-            self.y_vals = y_val_list
+            # Attempt to load using numpy which supports both csv and txt files
+            try:
+                ext = os.path.splitext(self.file)[1].lower()
+                if ext == '.csv':
+                    data = np.genfromtxt(self.file, delimiter=',', comments='#')
+                else:
+                    data = np.genfromtxt(self.file, comments='#')
+                # genfromtxt may return a 1-D array if only a single row exists
+                if data.ndim == 1:
+                    data = data.reshape(1, -1)
+                self.x_vals = data[:, 0].astype(float).tolist()
+                self.y_vals = data[:, 1].astype(float).tolist()
+            except Exception:
+                # Fallback to the previous manual parser
+                with open(self.file, 'r') as file:
+                    lines      = file.readlines()
+                    x_val_list = []
+                    y_val_list = []
+                    for line in lines:
+                        line = line.replace(',', ' ')
+                        line = line.split()
+                        if len(line) > 1:
+                            try:
+                                x_val_list.append(float(line[0]))
+                                y_val_list.append(float(line[1]))
+                            except (ValueError, IndexError):
+                                continue
+                self.x_vals = x_val_list
+                self.y_vals = y_val_list
             # cache the data
             self.x_orig = self.x_vals
             self.y_orig = self.y_vals
@@ -272,32 +286,26 @@ class Window(QMainWindow):
                     file.write(string_out)
                     if self.wiz_window.dist_type == "Gaussian":
                         for param in self.params:
-                            string_out = ""
                             a = param[0]
-                            b = param[1] * -1.0 # somehow amplitudes are stored as negatives when they are positive
+                            b = -float(param[1])
                             c = param[2]
-                            string_out = str(a) + ", " + str(b) + ", " + str(c) + "\n"
-                            if b > 0 :
-                                file.write(string_out)
+                            if b > 0:
+                                file.write(f"{a}, {b}, {c}\n")
                     elif self.wiz_window.dist_type == "Lorentzian":
                         for param in self.params:
-                            string_out = ""
                             a = param[0]
-                            b = param[1] * -1.0 # somehow amplitudes are stored as negatives when they are positive
+                            b = -float(param[1])
                             c = param[2]
-                            string_out = str(a) + ", " + str(b) + ", " + str(c) + "\n"
                             if b > 0:
-                                file.write(string_out)
+                                file.write(f"{a}, {b}, {c}\n")
                     elif self.wiz_window.dist_type == "Voigt":
                         for param in self.params:
-                            string_out = ""
                             a = param[0]
-                            b = param[1] * - 1.0 # somehow amplitudes are stored as negatives when they are positive
+                            b = -float(param[1])
                             c = param[2]
                             d = param[3]
-                            string_out = str(a) + ", " + str(b) + ", " + str(c) + ", " + str(d) + "\n"
-                            if b>0:
-                                file.write(string_out)
+                            if b > 0:
+                                file.write(f"{a}, {b}, {c}, {d}\n")
             else:
                 return None
 
