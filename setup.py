@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='tihi',
-    version='0.0.4',
+    version='0.9.0',
     description='A GUI tool that can detrend the signal, identify its peaks and fit the signal with distributions.',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',

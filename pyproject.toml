@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "Tihi_spectral_fitter"
-version = "0.0.4"
+version = "0.9.0"
 authors = [
   { name="Kyunghoon Han", email="kyunghoon.h@gmail.com" },
 ]
